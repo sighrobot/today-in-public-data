@@ -19,17 +19,17 @@ import Loader from '../components/loader'
 import Nav from '../components/nav'
 
 export default class App extends React.PureComponent {
-  initDate = () => {
-    const dateStringFromUrl = get(this.props, 'url.query.date');
+  constructor(props) {
+    super(props);
 
-    return dateStringFromUrl ? moment(dateStringFromUrl).toDate() : new Date();
-  }
+    const dateStringFromUrl = get(props, 'url.query.date');
 
-  state = {
-    countsByDate: {},
-    datasets: null,
-    date: this.initDate(),
-    isLoading: true,
+    this.state = {
+      countsByDate: {},
+      date: dateStringFromUrl ? moment(dateStringFromUrl).toDate() : new Date(),
+      datasets: null,
+      isLoading: true,
+    };
   }
 
   setCount = (date, count) => this.setState((state) => ({
@@ -39,7 +39,13 @@ export default class App extends React.PureComponent {
     }
   }))
 
-  updateRoute = (d) => Router.push({pathname: '/', query: {date: moment(d).format('YYYY-MM-DD')}})
+  updateRoute = (d) => {
+    const nextRouting = {pathname: '/'};
+
+    if (d) { nextRouting.query = {date: moment(d).format('YYYY-MM-DD')}; }
+
+    Router.push(nextRouting);
+  }
 
   loadDataOn = () => {
     const strings = createStringsForDate(this.state.date);
@@ -76,7 +82,7 @@ export default class App extends React.PureComponent {
   handleFetchDate = (d) => {
     this.updateRoute(d);
 
-    this.setState({date: d, isLoading: true}, this.loadDataOn);
+    this.setState({date: d || new Date(), isLoading: true}, this.loadDataOn);
   }
 
   renderSection = (things = this.state.mapped, level=0) => {

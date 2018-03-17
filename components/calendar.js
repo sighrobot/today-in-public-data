@@ -55,9 +55,6 @@ export default class Calendar extends React.PureComponent {
             display: flex;
             margin: 0;
             padding: 0;
-            position: sticky;
-            top: 50px;
-            z-index: 9999;
           }
         `}</style>
       </menu>
