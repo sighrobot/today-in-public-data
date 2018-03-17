@@ -1,8 +1,9 @@
 {
-  "name": "Today in Pubic Data",
-  "version": "1.0.0-beta",
-  "license": "MIT",
+  "name": "today-in-public-data",
   "author": "Abe Rubenstein (http://abe.sh/)",
+  "license": "MIT",
+  "repository": "https://github.com/sighrobot/today-in-public-data",
+  "version": "1.0.0-beta",
   "scripts": {
     "dev": "next",
     "build": "next build",
