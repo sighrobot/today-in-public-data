@@ -66,7 +66,7 @@ export default class Day extends React.PureComponent {
       );
     }
 
-    return '...';
+    return <img style={{height: '6px', marginTop: '12px', marginBottom: '2px'}} src='./static/dot-loader.svg' />;
   }
 
   render() {
