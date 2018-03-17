@@ -79,3 +79,5 @@ export const getNumDaysPerSide = () => {
 
   return 4;
 };
+
+export const isToday = (d) => d && moment(d).diff(moment(new Date()), 'days') === 0;

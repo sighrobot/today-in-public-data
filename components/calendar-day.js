@@ -88,6 +88,7 @@ export default class Day extends React.PureComponent {
         <style jsx>{`
           .calendar-day {
             border: none;
+            color: white;
             outline: 0;
             padding: 0;
             width: 100%;
@@ -111,6 +112,8 @@ export default class Day extends React.PureComponent {
 
           .calendar-day-active {
             background: transparent;
+            font-weight: 500;
+            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
           }
 
           .calendar-day:not(.calendar-day-active):disabled {
@@ -120,7 +123,6 @@ export default class Day extends React.PureComponent {
 
           .calendar-day-inner {
             align-items: center;
-            color: white;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
@@ -152,7 +154,6 @@ export default class Day extends React.PureComponent {
 
           .day-number {
             font-size: 22px;
-            font-weight: 600;
           }
           `}</style>
         </button>
