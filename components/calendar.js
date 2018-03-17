@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import {ResponsiveLine} from '@nivo/line';
 
 import {getNumDaysPerSide, getISO} from '../utils';
 
@@ -8,6 +9,7 @@ import Day from './calendar-day';
 
 export default class Calendar extends React.PureComponent {
   static propTypes = {
+    counts: PropTypes.object,
     focusDate: PropTypes.object,
   }
 
@@ -15,12 +17,28 @@ export default class Calendar extends React.PureComponent {
     focusDate: new Date(),
   }
 
+  getSideMargin = (daysPerSide) => window.innerWidth / (daysPerSide * 2 + 1) / 2
+
+  setSideMargin = () => this.setState({sideMargin: this.getSideMargin(this.state.numDaysPerSide)})
+
   state = {
     numDaysPerSide: null,
+    sideMargin: 0,
   }
 
   componentDidMount() {
-    this.setState({numDaysPerSide: getNumDaysPerSide()});
+    const daysPerSide = getNumDaysPerSide();
+
+    this.setState({
+      numDaysPerSide: daysPerSide,
+      sideMargin: this.getSideMargin(daysPerSide),
+    });
+
+    global.addEventListener('resize', this.setSideMargin);
+  }
+
+  componentWillUnmount() {
+    global.removeEventListener('resize', this.setSideMargin);
   }
 
   renderDays() {
@@ -45,16 +63,86 @@ export default class Calendar extends React.PureComponent {
     return days;
   }
 
+  mapCountsForViz = () => {
+    const {counts} = this.props;
+    const data = [];
+
+    for (let i = -(this.state.numDaysPerSide + 1); i <= this.state.numDaysPerSide + 1; i++) {
+      const key = getISO(moment(this.props.focusDate).add(i, 'days').toDate());
+      let val = counts[key];
+
+      if (i === -(this.state.numDaysPerSide + 1)) {
+        val = counts[getISO(moment(this.props.focusDate).add(-(this.state.numDaysPerSide), 'days').toDate())]
+      }
+
+      if (i === this.state.numDaysPerSide + 1) {
+        val = counts[getISO(moment(this.props.focusDate).add(this.state.numDaysPerSide, 'days').toDate())]
+      }
+
+
+      data.push({x: key, y: val || 0});
+    }
+
+    return [{id: 'counts', data}];
+  }
+
+  renderViz() {
+    return (
+      <div className='viz-wrapper'>
+        <ResponsiveLine
+          data={this.mapCountsForViz()}
+          animate={true}
+          colors={['rgba(255, 255, 255, 0.2']}
+          enableDots={false}
+          enableGridX={false}
+          enableGridY={false}
+          isInteractive={false}
+          margin={{
+              top: 4,
+              bottom: 4,
+              left: -this.state.sideMargin,
+              right: -this.state.sideMargin,
+          }}
+          axisBottom={{tickSize: 0}}
+          axisLeft={{tickSize: 0}}
+          minY='auto'
+          lineWidth={2}
+          curve='linear' />
+
+        <style jsx>{`
+          .viz-wrapper {
+            position: absolute;
+            top:0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1;
+          }
+        `}</style>
+      </div>
+    );
+  }
+
   render() {
     return (
       <menu className='calendar'>
-        {this.state.numDaysPerSide ? this.renderDays() : null}
+        <div className='days-wrapper'>
+          {this.state.numDaysPerSide ? this.renderDays() : null}
+        </div>
+
+        {this.renderViz()}
 
         <style jsx>{`
           .calendar {
-            display: flex;
+            position: relative;
             margin: 0;
             padding: 0;
+          }
+
+          .days-wrapper {
+            display: flex;
+            position: relative;
+            z-index:2;
           }
         `}</style>
       </menu>
