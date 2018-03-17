@@ -23,18 +23,6 @@ export default class Calendar extends React.PureComponent {
     this.setState({numDaysPerSide: getNumDaysPerSide()});
   }
 
-  makeSubCounts = () => {
-    const subCounts = {};
-
-    for (let i = -(this.state.numDaysPerSide); i <= this.state.numDaysPerSide; i++) {
-      const dateKey = getISO(moment(this.props.focusDate).add(i, 'days').toDate());
-
-      subCounts[dateKey] = this.props.counts[dateKey];
-    }
-
-    return subCounts;
-  }
-
   renderDays() {
     const days = [];
 
@@ -47,7 +35,6 @@ export default class Calendar extends React.PureComponent {
         <Day
           key={i}
           count={this.props.counts[getISO(d)]}
-          counts={this.makeSubCounts()}
           date={d}
           fetchDateFunc={this.props.fetchDateFunc}
           isActive={i === 0}

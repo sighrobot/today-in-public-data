@@ -25,10 +25,6 @@ export default class Day extends React.PureComponent {
       });
   }
 
-  sumCounts = () => Object.keys(this.props.counts).reduce((acc, key) => acc + (this.props.counts[key] || 0), 0)
-  getMinCount = () => Math.min(...Object.values(this.props.counts))
-  getMaxCount = () => Math.max(...Object.values(this.props.counts))
-
   componentDidMount() {
     if (this.props.date && !this.props.count) { this.getCount(this.props.date); }
   }
@@ -73,35 +69,6 @@ export default class Day extends React.PureComponent {
     return '...';
   }
 
-  renderGraphSegment() {
-    const min = this.getMinCount();
-    const max = this.getMaxCount();
-
-    return (
-      <svg viewBox='0 0 100 100'>
-        <circle
-          r={10}
-          cx={50}
-          cy={70 - ( (this.props.count - min) / (max - min) * 70) + 15 } />
-
-        <style jsx>{`
-          svg {
-            stroke: rgba(128, 0, 128, 0.2);
-            fill: rgba(255, 255, 255, 0.2);
-            stroke-width: 1;
-            bottom: 0;
-            top: 0;
-            left: 0;
-            right:0;
-            width: 100%;
-            height: 100%;
-            position: absolute;
-          }
-        `}</style>
-      </svg>
-    );
-  }
-
   render() {
     const mDate = moment(this.props.date);
 
@@ -117,8 +84,6 @@ export default class Day extends React.PureComponent {
 
           {this.renderCount()}
         </div>
-
-        {this.renderGraphSegment()}
 
         <style jsx>{`
           .calendar-day {
