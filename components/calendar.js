@@ -98,8 +98,8 @@ export default class Calendar extends React.PureComponent {
           enableGridY={false}
           isInteractive={false}
           margin={{
-              top: 4,
-              bottom: 4,
+              top: 6,
+              bottom: 6,
               left: -this.state.sideMargin,
               right: -this.state.sideMargin,
           }}
