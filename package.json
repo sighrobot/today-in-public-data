@@ -1,6 +1,6 @@
 {
   "name": "Today in Pubic Data",
-  "version": "1.0.0-rc",
+  "version": "1.0.0-beta",
   "license": "MIT",
   "author": "Abe Rubenstein (http://abe.sh/)",
   "scripts": {
