@@ -1,5 +1,8 @@
 {
-  "name": "create-next-example-app",
+  "name": "Today in Pubic Data",
+  "version": "1.0.0-rc",
+  "license": "MIT",
+  "author": "Abe Rubenstein (http://abe.sh/)",
   "scripts": {
     "dev": "next",
     "build": "next build",
