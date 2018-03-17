@@ -10,8 +10,10 @@
     "start": "next start"
   },
   "dependencies": {
+    "@nivo/line": "^0.33.0",
     "boundless": "^1.1.0",
     "lodash": "^4.17.5",
+    "lodash-es": "^4.17.7",
     "moment": "^2.20.1",
     "next": "^4.2.3",
     "react": "^16.2.0",
