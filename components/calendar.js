@@ -99,7 +99,7 @@ export default class Calendar extends React.PureComponent {
           isInteractive={false}
           margin={{
               top: 6,
-              bottom: 6,
+              bottom: 5,
               left: -this.state.sideMargin,
               right: -this.state.sideMargin,
           }}
