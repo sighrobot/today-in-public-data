@@ -116,7 +116,8 @@ export default class App extends React.PureComponent {
         <style jsx>{`
           .content {
             height: 100%;
-            overflow-y: auto
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
           }
         `}</style>
       </div>

@@ -69,9 +69,9 @@ const Card = (props) => (
 
     <style jsx>{`
       .card {
-        padding: 80px 40px;
+        padding: 80px 10px;
         margin: 0 auto;
-        max-width: 600px;
+        max-width: 800px;
         position: relative;
       }
 
