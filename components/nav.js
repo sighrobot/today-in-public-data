@@ -36,14 +36,19 @@ export default class Nav extends React.PureComponent {
             color: white;
             font-size: 16px;
             outline: 0;
-            padding: 20px 40px;
+            padding: 16px 40px;
             text-align: center;
             width: 100%;
           }
 
+          span {
+           border-bottom: 1px dotted white;
+           transition: 200ms ease text-shadow;
+          }
+
           span:hover {
-            border-bottom: 1px dotted white;
             cursor: pointer;
+            text-shadow: 5px 5px 1px rgba(255, 0, 0, 0.5), -5px -5px 1px rgba(0, 0, 255, 0.5);
           }
         `}</style>
       </button>
@@ -75,9 +80,10 @@ export default class Nav extends React.PureComponent {
 
         <style jsx>{`
           nav {
-            background: linear-gradient(to right, blue, purple, red);
+            background: linear-gradient(to right, #0063B2, #DC143C);
             color: white;
             text-align: center;
+            box-shadow: 0px 3px 5px rgba(0,0, 0, 0.5);
           }
         `}</style>
       </nav>

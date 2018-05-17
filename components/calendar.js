@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import moment from 'moment';
 import {ResponsiveLine} from '@nivo/line';
 
@@ -72,15 +73,14 @@ export default class Calendar extends React.PureComponent {
       let val = counts[key];
 
       if (i === -(this.state.numDaysPerSide + 1)) {
-        val = counts[getISO(moment(this.props.focusDate).add(-(this.state.numDaysPerSide), 'days').toDate())]
+        val = counts[getISO(moment(this.props.focusDate).add(-(this.state.numDaysPerSide), 'days').toDate())];
       }
 
       if (i === this.state.numDaysPerSide + 1) {
-        val = counts[getISO(moment(this.props.focusDate).add(this.state.numDaysPerSide, 'days').toDate())]
+        val = counts[getISO(moment(this.props.focusDate).add(this.state.numDaysPerSide, 'days').toDate())];
       }
 
-
-      data.push({x: key, y: val || 0});
+      data.push({x: key, y: get(val, 'count', 0)});
     }
 
     return [{id: 'counts', data}];
@@ -92,7 +92,7 @@ export default class Calendar extends React.PureComponent {
         <ResponsiveLine
           data={this.mapCountsForViz()}
           animate={true}
-          colors={['rgba(255, 255, 255, 0.2']}
+          colors={['rgba(255, 255, 0, 0.5)']}
           enableDots={false}
           enableGridX={false}
           enableGridY={false}

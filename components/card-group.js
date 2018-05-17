@@ -33,8 +33,7 @@ export default class CardGroup extends React.PureComponent {
 
         <style jsx>{`
           section {
-
-            color: #16161d;
+            color: rgba(22, 22, 29, 0.8);
           }
 
           h5 {

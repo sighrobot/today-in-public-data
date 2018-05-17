@@ -2,8 +2,16 @@ import moment from 'moment';
 import {get} from 'lodash';
 
 const API_KEY = process.env.API_KEY;
-const API_URL = 'https://public.enigma.com/api/datasets/?&row_limit=3';
-const OPTIONS = {headers: {Authorization: `Bearer ${API_KEY}`}};
+const API_URL = 'https://public.enigma.com/api/datasets/?&row_limit=1';
+const OPTIONS = {
+  headers: {
+    'Range': 'resources=0-999',
+  },
+};
+
+if (API_KEY) {
+  OPTIONS.headers.Authorization = `Bearer ${API_KEY}`;
+}
 
 export const getISO = (d) => d.toISOString().slice(0, 10);
 
@@ -37,8 +45,14 @@ export const fetchForDateString = (s) => {
 };
 
 export const fetchCountForDateString = (s) => {
-  return fetch(`${API_URL}&query_mode=advanced&query=(${encodeURIComponent(s)})`, {...OPTIONS, method: 'HEAD', 'cache': 'no-store'})
-         .then((response) => parseInt(response.headers.get('content-range').split('/')[1]), 10);
+  return fetch(`${API_URL}&query_mode=advanced&query=(${encodeURIComponent(s)})`, {...OPTIONS, 'cache': 'no-store'}).then((response) => {
+    return response.json().then((data) => {
+      return {
+        exact: data.length < 1000,
+        count: data.reduce((acc, d) => acc + get(d, 'current_snapshot.table_rows.count', 0), 0),
+      };
+    });
+  });
 };
 
 export const keyThem = (datasets, path) => {
@@ -73,11 +87,11 @@ export const formatNum = function(num, fixed) {
 export const getNumDaysPerSide = () => {
   const w = global.innerWidth;
 
-  if (w < 400) { return 1; }
-  if (w < 570) { return 2; }
-  if (w < 800) { return 3; }
+  if (w < 500) { return 1; }
+  // if (w < 570) { return 2; }
+  // if (w < 800) { return 3; }
 
-  return 4;
+  return 2;
 };
 
 export const isToday = (d) => d && moment(d).diff(moment(new Date()), 'days') === 0;
