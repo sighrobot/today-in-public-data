@@ -1,9 +1,9 @@
 import NextHead from 'next/head'
 import { string } from 'prop-types'
 
-const defaultDescription = ''
-const defaultOGURL = ''
-const defaultOGImage = ''
+const defaultDescription = 'What\'s happening in public data today?'
+const defaultOGURL = 'https://publicdata.today/'
+const defaultOGImage = './static/preview.png'
 
 const Head = (props) => (
   <NextHead>

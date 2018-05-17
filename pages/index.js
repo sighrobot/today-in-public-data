@@ -112,7 +112,9 @@ export default class App extends React.PureComponent {
   render() {
     return (
       <div className='wrapper'>
-        <Head title={`${moment(this.state.date).format('MMMM D, YYYY')} – Today in Public Data`} />
+        <Head
+          title={`${moment(this.state.date).format('MMMM D, YYYY')} – Today in Public Data`}
+          description={`What's happening in public data on ${moment(this.state.date).format('MMMM D, YYYY')}?`}/>
 
         <Nav
           date={this.state.date}
