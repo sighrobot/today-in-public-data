@@ -3,7 +3,7 @@ import { string } from 'prop-types'
 
 const defaultDescription = 'What\'s happening in public data today?'
 const defaultOGURL = 'https://publicdata.today/'
-const defaultOGImage = './static/preview.png'
+const defaultOGImage = 'https://publicdata.today/static/preview.png'
 
 const Head = (props) => (
   <NextHead>
@@ -22,6 +22,8 @@ const Head = (props) => (
     <meta name="twitter:site" content={props.url || defaultOGURL} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={props.ogImage || defaultOGImage} />
+    <meta name="twitter:creator" content='@sighrobot' />
+
     <meta property="og:image" content={props.ogImage || defaultOGImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
