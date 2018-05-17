@@ -1,7 +1,7 @@
 import React from 'react';
 import Router from 'next/router';
 import moment from 'moment';
-import {get, flatten} from 'lodash';
+import {get, flatten, pick, uniqBy} from 'lodash';
 
 import {
   createStringsForDate,
@@ -12,11 +12,10 @@ import {
 
 import Calendar from '../components/calendar';
 import Card from '../components/card'
-import CardGroup from '../components/card-group';
 import Head from '../components/head'
-import Link from 'next/link'
 import Loader from '../components/loader'
 import Nav from '../components/nav'
+import Footer from '../components/footer'
 
 export default class App extends React.PureComponent {
   constructor(props) {
@@ -32,10 +31,10 @@ export default class App extends React.PureComponent {
     };
   }
 
-  setCount = (date, count) => this.setState((state) => ({
+  setCount = (date, countObj) => this.setState((state) => ({
     countsByDate: {
       ...state.countsByDate,
-      [getISO(date)]: count,
+      [getISO(date)]: countObj,
     }
   }))
 
@@ -54,23 +53,17 @@ export default class App extends React.PureComponent {
       Promise.all(responses.map((r) => r.json())).then((jsons) => {
         const flattened = flatten(jsons);
 
-        const mapped = keyThem(flattened, 'ancestors[1].display_name');
+        flattened.sort((d1, d2) => get(d1, 'score') < get(d2, 'score') ? 1 : -1);
+        const count = flattened.reduce((acc, d) => acc + get(d, 'current_snapshot.table_rows.count', 0), 0);
 
-        Object.keys(mapped).forEach((k) => {
-          mapped[k] = keyThem(mapped[k], 'ancestors[2].display_name')
-
-          // Object.keys(mapped[k]).forEach((k2) => {
-          //   mapped[k][k2] = keyThem(mapped[k][k2], 'ancestors[3].display_name')
-          // });
-        })
-
-        // console.log(mapped)
-
-        this.setState({
-          datasets: flattened,
+        this.setState((state) => ({
+          datasets: uniqBy(flattened, 'id').map((d) => pick(d, 'description', 'id', 'display_name', 'name', 'current_snapshot', 'ancestors', 'score')),
           isLoading: false,
-          mapped: mapped,
-        });
+          countsByDate: {
+            ...state.countsByDate,
+            [getISO(this.state.date)]: {count: count, exact: flattened.length !== 1000},
+          },
+        }));
       });
     });
   }
@@ -85,38 +78,31 @@ export default class App extends React.PureComponent {
     this.setState({date: d || new Date(), isLoading: true}, this.loadDataOn);
   }
 
-  renderSection = (things = this.state.mapped, level=0) => {
-    return Object.keys(things).map((k, idx) => {
-      const moreThings = things[k];
-
-      return (
-        <CardGroup key={k} level={level} title={k}>
-          {moreThings.length ? moreThings.map(this.renderCard) : this.renderSection(moreThings, level+1)}
-        </CardGroup>
-      );
-    });
-  }
-
   renderCard = (dataset, idx) => {
     return (
       <Card
         key={idx}
         dataset={dataset}
+        date={this.state.date}
         todayAsISO={getISO(this.state.date)} />
     );
   }
 
   renderContent() {
+    if (this.props.content) { return this.props.content; }
+
     if (this.state.isLoading) { return <Loader />; }
 
     return (
       <div className='content'>
-        {this.state.datasets ? this.renderSection() : null}
+        {this.state.datasets ? this.state.datasets.map(this.renderCard) : null}
 
         <style jsx>{`
           .content {
             height: 100%;
-            overflow-y: auto
+            padding: 0 20px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
           }
         `}</style>
       </div>
@@ -136,6 +122,8 @@ export default class App extends React.PureComponent {
 
         {this.renderContent()}
 
+        <Footer />
+
         <style jsx>{`
           :global(*) {
             box-sizing: border-box;
@@ -150,6 +138,8 @@ export default class App extends React.PureComponent {
           nav {
             flex-shrink: 0;
           }
+
+
 
           .wrapper {
             display: flex;

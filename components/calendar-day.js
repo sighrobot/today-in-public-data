@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { get } from 'lodash';
 
 import {
   createStringsForDate,
@@ -17,34 +18,35 @@ export default class Day extends React.PureComponent {
     date: new Date(),
   }
 
-  getCount = (date) => {
+  fetchCount = (date) => {
       const strings = createStringsForDate(date);
 
-      fetchCountForDateString(strings.join(' || ')).then((count) => {
-        this.props.setCountFunc(date, count);
+      fetchCountForDateString(strings.join(' || ')).then((countObj) => {
+        this.props.setCountFunc(date, countObj);
       });
   }
 
+  getCount = (props = this.props) => get(props, 'count.count')
+
   componentDidMount() {
-    if (this.props.date && !this.props.count) { this.getCount(this.props.date); }
+    if (this.props.date && !this.getCount()) { !this.props.isActive && this.fetchCount(this.props.date); }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (moment(nextProps.date).diff(this.props.date, 'days')
-        && !nextProps.count) {
-      this.getCount(nextProps.date);
+    if (moment(nextProps.date).diff(this.props.date, 'days') && !this.getCount(nextProps)) {
+      !nextProps.isActive && this.fetchCount(nextProps.date);
     }
   }
 
   handleDayClick = () => this.props.fetchDateFunc(this.props.date)
 
   renderCount() {
-    if (this.props.count >= 0) {
+    if (this.getCount() >= 0) {
       return (
         <span className='calendar-day-count'>
-          <strong>{formatNum(this.props.count)}</strong>
+          <strong>{formatNum(this.getCount())}{this.props.count.exact ? '' : '+'}</strong>
           &nbsp;
-          <small>{this.props.count === 1 ? 'dataset' : 'datasets'}</small>
+          <small>{this.getCount() === 1 ? 'record' : 'records'}</small>
 
           <style jsx>{`
             .calendar-day-count {
@@ -75,7 +77,7 @@ export default class Day extends React.PureComponent {
     return (
       <button
         className={`calendar-day ${this.props.isActive ? 'calendar-day-active' : ''}`}
-        disabled={this.props.isActive || this.props.count === 0}
+        disabled={this.props.isActive || this.getCount() === 0}
         onClick={this.handleDayClick}>
         <div className='calendar-day-inner'>
           <span className='day-name'>{mDate.format('ddd')}</span>
@@ -94,7 +96,7 @@ export default class Day extends React.PureComponent {
             width: 100%;
             position: relative;
 
-            transition: 200ms ease background;
+            transition: 200ms ease background, text-shadow;
           }
 
           .calendar-day:not(.calendar-day-active) {
@@ -104,6 +106,7 @@ export default class Day extends React.PureComponent {
           .calendar-day:not(:disabled):hover {
             background: rgba(255, 255, 255, 0.05);
             cursor: pointer;
+            text-shadow: 5px 5px 1px rgba(255, 0, 0, 0.3), -5px -5px 1px rgba(0, 0, 255, 0.3);
           }
 
           .calendar-day:not(:disabled):active {

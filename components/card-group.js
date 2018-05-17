@@ -33,8 +33,7 @@ export default class CardGroup extends React.PureComponent {
 
         <style jsx>{`
           section {
-            min-height: calc(100vh - 50px);
-            color: #16161d;
+            color: rgba(22, 22, 29, 0.8);
           }
 
           h5 {
@@ -47,8 +46,8 @@ export default class CardGroup extends React.PureComponent {
 
           h5 > div > div {
             margin: 0 auto;
-            max-width: 600px;
-            padding: 4px 40px;
+            max-width: 800px;
+            padding: 4px 10px;
           }
 
           h5 > div > div > a {
