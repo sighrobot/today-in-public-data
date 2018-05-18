@@ -29,12 +29,12 @@ export default class Day extends React.PureComponent {
   getCount = (props = this.props) => get(props, 'count.count')
 
   componentDidMount() {
-    if (this.props.date && !this.getCount()) { !this.props.isActive && this.fetchCount(this.props.date); }
+    if (this.props.date && !this.getCount()) { this.fetchCount(this.props.date); }
   }
 
   componentWillReceiveProps(nextProps) {
     if (moment(nextProps.date).diff(this.props.date, 'days') && !this.getCount(nextProps)) {
-      !nextProps.isActive && this.fetchCount(nextProps.date);
+      this.fetchCount(nextProps.date);
     }
   }
 
@@ -46,7 +46,7 @@ export default class Day extends React.PureComponent {
         <span className='calendar-day-count'>
           <strong>{formatNum(this.getCount())}{this.props.count.exact ? '' : '+'}</strong>
           &nbsp;
-          <small>{this.getCount() === 1 ? 'record' : 'records'}</small>
+          <small>{this.getCount() === 1 ? 'dataset' : 'datasets'}</small>
 
           <style jsx>{`
             .calendar-day-count {

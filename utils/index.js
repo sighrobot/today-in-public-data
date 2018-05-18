@@ -3,10 +3,9 @@ import {get} from 'lodash';
 
 const API_KEY = process.env.API_KEY;
 const API_URL = 'https://public.enigma.com/api/datasets/?&row_limit=1';
+const API_SUMMARY_URL = 'https://public.enigma.com/api/dataset_summary?';
 const OPTIONS = {
-  headers: {
-    'Range': 'resources=0-999',
-  },
+  headers: {'Range': 'resources=0-24'},
 };
 
 if (API_KEY) {
@@ -45,11 +44,11 @@ export const fetchForDateString = (s) => {
 };
 
 export const fetchCountForDateString = (s) => {
-  return fetch(`${API_URL}&query_mode=advanced&query=(${encodeURIComponent(s)})`, {...OPTIONS, 'cache': 'no-store'}).then((response) => {
-    return response.json().then((data) => {
+  return fetch(`${API_SUMMARY_URL}&query_mode=advanced&query=(${encodeURIComponent(s)})`, {'cache': 'no-store'}).then((response) => {
+    return response.json().then((summary) => {
       return {
-        exact: data.length < 1000,
-        count: data.reduce((acc, d) => acc + get(d, 'current_snapshot.table_rows.count', 0), 0),
+        exact: true,
+        count: summary.row_count_summary.reduce((acc, b) => acc + b.count, 0),
       };
     });
   });
