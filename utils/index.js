@@ -86,11 +86,11 @@ export const formatNum = function(num, fixed) {
 export const getNumDaysPerSide = () => {
   const w = global.innerWidth;
 
-  if (w < 500) { return 1; }
-  // if (w < 570) { return 2; }
-  // if (w < 800) { return 3; }
+  if (w < 450) { return 1; }
+  if (w < 600) { return 2; }
+  if (w < 960) { return 3; }
 
-  return 2;
+  return 4;
 };
 
 export const isToday = (d) => d && moment(d).diff(moment(new Date()), 'days') === 0;
