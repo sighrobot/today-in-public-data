@@ -3,7 +3,7 @@ import { string } from 'prop-types'
 
 const defaultDescription = 'What\'s happening in public data today?'
 const defaultOGURL = 'https://publicdata.today/'
-const defaultOGImage = '/static/preview2.png'
+const defaultOGImage = 'https://publicdata.today/static/preview2.png'
 
 const Head = (props) => (
   <NextHead>
