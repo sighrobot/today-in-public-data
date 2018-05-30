@@ -223,7 +223,11 @@ const Card = (props) => (
       {getCellData2(props.dataset, props.todayAsISO)}
     </div>
     <a className='dataset-link' target="_blank" href={`https://public.enigma.com/datasets/${props.dataset.id}?filter=${constructDatasetFilter(props.date)}`}>
-      View all {props.dataset.current_snapshot.table_rows.count.toLocaleString()} records&hellip;
+      {
+        props.dataset.current_snapshot.table_rows.count === 1
+        ? 'View this record'
+        : `View all ${props.dataset.current_snapshot.table_rows.count.toLocaleString()} records`
+      }
     </a>
 
     <style jsx>{`

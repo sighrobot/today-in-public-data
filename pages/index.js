@@ -59,10 +59,6 @@ export default class App extends React.PureComponent {
         this.setState((state) => ({
           datasets: uniqBy(flattened, 'id').map((d) => pick(d, 'description', 'id', 'display_name', 'name', 'current_snapshot', 'ancestors', 'score')),
           isLoading: false,
-          countsByDate: {
-            ...state.countsByDate,
-            [getISO(this.state.date)]: {count: count, exact: flattened.length !== 1000},
-          },
         }));
       });
     });
@@ -97,6 +93,7 @@ export default class App extends React.PureComponent {
       <div className='content'>
         {this.state.datasets ? this.state.datasets.map(this.renderCard) : null}
 
+        {this.maybeRenderSearchLink()}
         <style jsx>{`
           .content {
             height: 100%;
@@ -109,10 +106,42 @@ export default class App extends React.PureComponent {
     );
   }
 
+  maybeRenderSearchLink() {
+    if (!this.state.isLoading) {
+      return (
+        <aside className='search-link-wrapper'>
+          <h3>Looking for more data?</h3>
+          <p>Full search results are available on Enigma Public!</p>
+
+          <a target="_blank" href={`https://public.enigma.com/search/${encodeURIComponent(createStringsForDate(this.state.date).join(' || '))}`}>
+            View all of today's datasets
+          </a>
+
+          <style jsx>{`
+            .search-link-wrapper {
+              padding: 100px 0;
+              margin: 0 auto;
+              max-width: 1200px;
+            }
+
+            h3 {
+              margin: 0;
+            }
+            a:after {
+              content: ' ↗';
+            }
+          `}</style>
+        </aside>
+      );
+    }
+  }
+
   render() {
     return (
       <div className='wrapper'>
-        <Head title={`${moment(this.state.date).format('MMMM D, YYYY')} – Today in Public Data`} />
+        <Head
+          title={`${moment(this.state.date).format('MMMM D, YYYY')} – Today in Public Data`}
+          description={`What's happening in public data on ${moment(this.state.date).format('MMMM D, YYYY')}?`}/>
 
         <Nav
           date={this.state.date}
@@ -138,8 +167,6 @@ export default class App extends React.PureComponent {
           nav {
             flex-shrink: 0;
           }
-
-
 
           .wrapper {
             display: flex;
