@@ -46,10 +46,7 @@ export const fetchForDateString = (s) => {
 export const fetchCountForDateString = (s) => {
   return fetch(`${API_SUMMARY_URL}&query_mode=advanced&query=(${encodeURIComponent(s)})`, {'cache': 'no-store'}).then((response) => {
     return response.json().then((summary) => {
-      return {
-        exact: true,
-        count: summary.row_count_summary.reduce((acc, b) => acc + b.count, 0),
-      };
+      return summary.row_count_summary.reduce((acc, b) => acc + b.count, 0);
     });
   });
 };

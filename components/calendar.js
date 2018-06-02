@@ -65,7 +65,7 @@ export default class Calendar extends React.PureComponent {
   }
 
   mapCountsForViz = () => {
-    const {counts} = this.props;
+    const { counts } = this.props;
     const data = [];
 
     for (let i = -(this.state.numDaysPerSide + 1); i <= this.state.numDaysPerSide + 1; i++) {
@@ -80,7 +80,7 @@ export default class Calendar extends React.PureComponent {
         val = counts[getISO(moment(this.props.focusDate).add(this.state.numDaysPerSide, 'days').toDate())];
       }
 
-      data.push({x: key, y: get(val, 'count', 0)});
+      data.push({x: key, y: val || 0});
     }
 
     return [{id: 'counts', data}];
