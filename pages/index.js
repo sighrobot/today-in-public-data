@@ -7,7 +7,6 @@ import {
   createStringsForDate,
   fetchForDateString,
   getISO,
-  keyThem,
 } from '../utils';
 
 import Calendar from '../components/calendar';

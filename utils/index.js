@@ -54,22 +54,6 @@ export const fetchCountForDateString = (s) => {
   });
 };
 
-export const keyThem = (datasets, path) => {
-  const mapped = {}
-
-  datasets.forEach((d) => {
-    const key = get(d, path);
-
-    if (mapped[key]) {
-      mapped[key].push(d);
-    } else {
-      mapped[key] = [d];
-    }
-  })
-
-  return mapped;
-};
-
 // https://stackoverflow.com/a/32638472/2502505
 export const formatNum = function(num, fixed) {
   if (num === null) { return null; } // terminate early
