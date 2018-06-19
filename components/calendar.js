@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import moment from 'moment';
-import {ResponsiveLine} from '@nivo/line';
 
-import {getNumDaysPerSide, getISO} from '../lib/utils';
+import { getNumDaysPerSide, getISO } from '../lib/utils';
 
 import Day from './calendar-day';
+import LineViz from './line-viz';
 
 export default class Calendar extends React.PureComponent {
   static propTypes = {
@@ -86,43 +86,6 @@ export default class Calendar extends React.PureComponent {
     return [{id: 'counts', data}];
   }
 
-  renderViz() {
-    return (
-      <div className='viz-wrapper'>
-        <ResponsiveLine
-          data={this.mapCountsForViz()}
-          animate={true}
-          colors={['rgba(255, 255, 0, 0.5)']}
-          enableDots={false}
-          enableGridX={false}
-          enableGridY={false}
-          isInteractive={false}
-          margin={{
-              top: 6,
-              bottom: 5,
-              left: -this.state.sideMargin,
-              right: -this.state.sideMargin,
-          }}
-          axisBottom={{tickSize: 0}}
-          axisLeft={{tickSize: 0}}
-          minY='auto'
-          lineWidth={2}
-          curve='linear' />
-
-        <style jsx>{`
-          .viz-wrapper {
-            position: absolute;
-            top:0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 1;
-          }
-        `}</style>
-      </div>
-    );
-  }
-
   render() {
     return (
       <menu className='calendar'>
@@ -130,7 +93,9 @@ export default class Calendar extends React.PureComponent {
           {this.state.numDaysPerSide ? this.renderDays() : null}
         </div>
 
-        {this.renderViz()}
+        <LineViz
+          data={this.mapCountsForViz()}
+          sideMargin={this.state.sideMargin} />
 
         <style jsx>{`
           .calendar {
