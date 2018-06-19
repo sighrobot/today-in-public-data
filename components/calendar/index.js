@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import moment from 'moment';
 
-import { getNumDaysPerSide, getISO } from '../lib/utils';
+import { getNumDaysPerSide, getISO } from '../../lib/utils';
 
-import Day from './calendar-day';
-import LineViz from './line-viz';
+import Day from '../calendar-day';
+import LineViz from '../line-viz';
+import style from './style';
 
 export default class Calendar extends React.PureComponent {
   static propTypes = {
@@ -97,19 +98,7 @@ export default class Calendar extends React.PureComponent {
           data={this.mapCountsForViz()}
           sideMargin={this.state.sideMargin} />
 
-        <style jsx>{`
-          .calendar {
-            position: relative;
-            margin: 0;
-            padding: 0;
-          }
-
-          .days-wrapper {
-            display: flex;
-            position: relative;
-            z-index:2;
-          }
-        `}</style>
+        <style jsx>{ style }</style>
       </menu>
     );
   }
