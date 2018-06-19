@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import moment from 'moment';
 import {ResponsiveLine} from '@nivo/line';
 
-import {getNumDaysPerSide, getISO} from '../utils';
+import {getNumDaysPerSide, getISO} from '../lib';
 
 import Day from './calendar-day';
 

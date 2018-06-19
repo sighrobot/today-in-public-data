@@ -7,7 +7,7 @@ import {
   createStringsForDate,
   fetchCountForDateString,
   formatNum,
-} from '../utils';
+} from '../lib';
 
 export default class Day extends React.PureComponent {
   static propTypes = {

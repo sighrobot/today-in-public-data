@@ -3,7 +3,7 @@ import moment from 'moment';
 
 import Calendar from './calendar';
 import DatePicker from './date-picker';
-import {isToday} from '../utils';
+import {isToday} from '../lib';
 
 export default class Nav extends React.PureComponent {
   state = {

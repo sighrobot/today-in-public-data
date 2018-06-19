@@ -4,7 +4,7 @@ import { chunk, find, get } from 'lodash';
 
 import TextExpander from './text-expander';
 
-import { createStringsForDate } from '../utils';
+import { createStringsForDate } from '../lib';
 
 const KEYWORDS_WHITE = [
   'abstract',

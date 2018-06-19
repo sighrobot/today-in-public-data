@@ -7,7 +7,7 @@ import {
   createStringsForDate,
   fetchForDateString,
   getISO,
-} from '../utils';
+} from '../lib';
 
 import Calendar from '../components/calendar';
 import Card from '../components/card'
