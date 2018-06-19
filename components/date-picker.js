@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 
 import Calendar from './calendar';
-import {getISO} from '../lib';
+import {getISO} from '../lib/utils';
 
 export default class DatePicker extends React.PureComponent {
   updateDate = (props = this.props) => getISO(props.date)
