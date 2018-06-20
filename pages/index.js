@@ -7,8 +7,7 @@ import {
   createStringsForDate,
   fetchForDateString,
   getISO,
-  keyThem,
-} from '../utils';
+} from '../lib/utils';
 
 import Calendar from '../components/calendar';
 import Card from '../components/card'
@@ -31,10 +30,10 @@ export default class App extends React.PureComponent {
     };
   }
 
-  setCount = (date, countObj) => this.setState((state) => ({
+  setCount = (date, count) => this.setState((state) => ({
     countsByDate: {
       ...state.countsByDate,
-      [getISO(date)]: countObj,
+      [getISO(date)]: count,
     }
   }))
 
@@ -54,7 +53,6 @@ export default class App extends React.PureComponent {
         const flattened = flatten(jsons);
 
         flattened.sort((d1, d2) => get(d1, 'score') < get(d2, 'score') ? 1 : -1);
-        const count = flattened.reduce((acc, d) => acc + get(d, 'current_snapshot.table_rows.count', 0), 0);
 
         this.setState((state) => ({
           datasets: uniqBy(flattened, 'id').map((d) => pick(d, 'description', 'id', 'display_name', 'name', 'current_snapshot', 'ancestors', 'score')),
