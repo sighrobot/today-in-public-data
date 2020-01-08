@@ -16,7 +16,7 @@ export default css`
     border: none;
     color: #16161d;
     font-family: inherit;
-    font-size: inherit
+    font-size: inherit;
     padding: 4px;
     width: 165px;
   }
