@@ -2,7 +2,7 @@ import css from 'styled-jsx/css'
 
 export const inner = css`
   .one-row {
-    max-width: calc(33.3% - 10px)
+    max-width: calc(33.3% - 10px);
     display: inline-block;
     line-height:1;
     z-index:1;
@@ -32,8 +32,8 @@ export const inner = css`
     text-transform: none;
     font-size: 12px;
     font-weight: 400;
-    line-height: 1.3
-    color: white
+    line-height: 1.3;
+    color: white;
     opacity: 0.8;
     background: #16161d;
     z-index: 3;
