@@ -22,7 +22,7 @@ export default class LineViz extends React.PureComponent {
           data={this.props.data}
           animate={true}
           colors={['rgba(255, 255, 0, 0.5)']}
-          enableDots={false}
+          enablePoints={false}
           enableGridX={false}
           enableGridY={false}
           isInteractive={false}
