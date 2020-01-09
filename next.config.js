@@ -1,18 +1,14 @@
-const webpack = require('webpack');
+const webpack = require('webpack')
+const withCSS = require('@zeit/next-css')
+const withStylus = require('@zeit/next-stylus')
 
-module.exports = {
+module.exports = withStylus(withCSS({
   webpack: (config) => {
     // Fixes npm packages that depend on `fs` module
     config.node = {
       fs: 'empty'
     };
 
-    config.plugins.push(
-      new webpack.DefinePlugin({
-        'process.env.API_KEY': JSON.stringify(process.env.API_KEY),
-      })
-    );
-
     return config
   }
-}
+}))
