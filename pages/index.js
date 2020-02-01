@@ -1,13 +1,10 @@
-import React from 'react';
-import Router from 'next/router';
+import React from 'react'
+import Router from 'next/router'
 import { withRouter } from 'next/router'
-import moment from 'moment';
-import {get, mapValues} from 'lodash';
+import moment from 'moment'
+import { get, mapValues } from 'lodash'
 
-import {
-  fetchData,
-  getISO,
-} from '../lib/utils';
+import { fetchData, getISO } from '../lib/utils'
 
 import sources from '../lib/sources'
 
@@ -24,9 +21,9 @@ class App extends React.PureComponent {
   }
 
   initDate = () => {
-    const dateStringFromUrl = get(this.props, 'router.query.date');
+    const dateStringFromUrl = get(this.props, 'router.query.date')
 
-    return dateStringFromUrl ? moment(dateStringFromUrl).toDate() : new Date();
+    return dateStringFromUrl ? moment(dateStringFromUrl).toDate() : new Date()
   }
 
   state = {
@@ -34,64 +31,68 @@ class App extends React.PureComponent {
     date: this.initDate(),
     isLoading: true,
     data: null,
-    sourceVisibility: mapValues(sources, () => true)
+    sourceVisibility: mapValues(sources, () => true),
   }
 
-  setCount = (date, count) => this.setState((state) => ({
-    countsByDate: {
-      ...state.countsByDate,
-      [getISO(date)]: count,
-    }
-  }))
+  setCount = (date, count) =>
+    this.setState(state => ({
+      countsByDate: {
+        ...state.countsByDate,
+        [getISO(date)]: count,
+      },
+    }))
 
-  updateRoute = (d) => {
-    const nextRouting = {pathname: '/', query: {
-      date: this.props.router.query.date,
-    }};
+  updateRoute = d => {
+    const nextRouting = {
+      pathname: '/',
+      query: {
+        date: this.props.router.query.date,
+      },
+    }
 
     if (d) {
-      nextRouting.query.date = moment(d).format('YYYY-MM-DD');
+      nextRouting.query.date = moment(d).format('YYYY-MM-DD')
     }
 
-    Router.push(nextRouting);
+    Router.push(nextRouting)
   }
 
   loadDataOn = async () => {
-    const { body }  = await fetchData(this.state.date);
+    const { body } = await fetchData(this.state.date)
     // const body = require('../lib/fake.json')
 
-    this.setState({ data: body, isLoading: false });
+    this.setState({ data: body, isLoading: false })
   }
 
   componentDidMount() {
-    this.loadDataOn();
+    this.loadDataOn()
   }
 
-  handleFetchDate = (d) => {
-    this.updateRoute(d);
+  handleFetchDate = d => {
+    this.updateRoute(d)
 
-    this.setState({date: d || new Date(), isLoading: true}, this.loadDataOn);
+    this.setState({ date: d || new Date(), isLoading: true }, this.loadDataOn)
   }
 
-  handleToggleSource = (e) => {
-    e.persist();
+  handleToggleSource = e => {
+    e.persist()
 
     this.setState(state => {
-      const newSourceVisibility = { ...state.sourceVisibility };
+      const newSourceVisibility = { ...state.sourceVisibility }
 
-      newSourceVisibility[e.target.name] = e.target.checked;
+      newSourceVisibility[e.target.name] = e.target.checked
 
       return {
         ...state,
         sourceVisibility: newSourceVisibility,
       }
     })
-
   }
 
   renderContent() {
-    if (this.props.content) { return this.props.content; }
-
+    if (this.props.content) {
+      return this.props.content
+    }
 
     return (
       <main>
@@ -102,21 +103,29 @@ class App extends React.PureComponent {
           handleFetchDate={this.handleFetchDate}
         />
 
-        {this.state.isLoading ? <Loader /> :
-        <Planner
-          data={this.state.data}
-          sourceVisibility={this.state.sourceVisibility}
-        />}
+        {this.state.isLoading ? (
+          <Loader />
+        ) : (
+          <Planner
+            data={this.state.data}
+            sourceVisibility={this.state.sourceVisibility}
+          />
+        )}
       </main>
-    );
+    )
   }
 
   render() {
     return (
       <>
         <Head
-          title={`${moment(this.state.date).format('MMMM D, YYYY')} – Today in Public Data`}
-          description={`What's happening in public data on ${moment(this.state.date).format('MMMM D, YYYY')}?`}/>
+          title={`${moment(this.state.date).format(
+            'MMMM D, YYYY'
+          )} – Today in Public Data`}
+          description={`What's happening in public data on ${moment(
+            this.state.date
+          ).format('MMMM D, YYYY')}?`}
+        />
 
         <Nav
           date={this.state.date}
@@ -132,7 +141,7 @@ class App extends React.PureComponent {
         <script> </script>
         {/* https://github.com/zeit/next-plugins/issues/455#issuecomment-489452379 */}
       </>
-    );
+    )
   }
 }
 
