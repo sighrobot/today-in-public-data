@@ -8,7 +8,6 @@ import { fetchData, getISO } from '../lib/utils'
 import sources from '../lib/sources'
 
 import Head from '../components/head'
-import Loader from '../components/loader'
 import Nav from '../components/nav'
 import Footer from '../components/footer'
 import Planner from '../components/planner'
@@ -102,14 +101,11 @@ class App extends React.PureComponent {
           handleFetchDate={this.handleFetchDate}
         />
 
-        {this.state.isLoading ? (
-          <Loader />
-        ) : (
-          <Planner
-            data={this.state.data}
-            sourceVisibility={this.state.sourceVisibility}
-          />
-        )}
+        <Planner
+          data={this.state.data}
+          sourceVisibility={this.state.sourceVisibility}
+          loading={this.state.isLoading}
+        />
       </main>
     )
   }
