@@ -58,6 +58,7 @@ class App extends React.PureComponent {
 
   loadDataOn = async () => {
     const { body }  = await fetchData(this.state.date);
+    // const body = require('../lib/fake.json')
 
     this.setState({ data: body, isLoading: false });
   }

@@ -35,11 +35,13 @@
 
 .date-picker-input {
   border: none;
-  border: 1px solid rgba(255, 255,255, 0.5);
-  font-size: 12px;
-  padding: 4px 8px;
-  text-align: center;
+  padding: 0;
+  font-family: inherit;
   width: 100px;
+  margin-right: 10px;
+  font-weight: bold;
+  font-size: inherit;
+  border-bottom: 1px dotted #16161d;
 }
 
 .date-submit:hover {
@@ -65,4 +67,18 @@
 .date-submit:not([disabled]):hover {
   background: #16161d;
   color: white;
+}
+
+.react-datepicker-popper {
+    display: none;
+  }
+
+@media screen and (max-width: 720px) {
+  .react-datepicker {
+    background: white;
+  }
+
+  .react-datepicker-popper {
+    display: block;
+  }
 }
