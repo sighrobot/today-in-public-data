@@ -1,20 +1,25 @@
 {
   "name": "today-in-public-data",
-  "author": "Abe Rubenstein (http://abe.sh/)",
+  "author": "Abe Rubenstein (https://abe.sh/)",
   "license": "MIT",
   "repository": "https://github.com/sighrobot/today-in-public-data",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "scripts": {
-    "dev": "next",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start"
+    "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
     "@nivo/line": "0.61.1",
+    "@zeit/next-css": "^1.0.1",
+    "@zeit/next-stylus": "^1.0.1",
     "lodash": "4.17.15",
     "moment": "2.24.0",
     "next": "^9.1.7",
     "react": "16.12.0",
-    "react-dom": "16.12.0"
+    "react-datepicker": "^2.11.0",
+    "react-dom": "16.12.0",
+    "stylus": "^0.54.7",
+    "superagent": "^5.2.1"
   }
 }

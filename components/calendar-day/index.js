@@ -4,8 +4,7 @@ import moment from 'moment';
 import { get } from 'lodash';
 
 import {
-  createStringsForDate,
-  fetchCountForDateString,
+  fetchCountForDateString2,
   formatNum,
 } from '../../lib/utils';
 
@@ -20,12 +19,10 @@ export default class Day extends React.PureComponent {
     date: new Date(),
   }
 
-  fetchCount = (date) => {
-      const strings = createStringsForDate(date);
+  fetchCount = async (date) => {
+      const count = await fetchCountForDateString2(date);
 
-      fetchCountForDateString(strings.join(' || ')).then((count) => {
-        this.props.setCountFunc(date, count);
-      });
+      this.props.setCountFunc(date, count);
   }
 
   getCount = (props = this.props) => get(props, 'count')
@@ -50,7 +47,7 @@ export default class Day extends React.PureComponent {
         <span className='calendar-day-count'>
           <strong>{formatNum(count)}</strong>
           &nbsp;
-          <small>{count === 1 ? 'dataset' : 'datasets'}</small>
+          <small>{count === 1 ? 'record' : 'records'}</small>
 
           <style jsx>{ countStyle }</style>
         </span>
@@ -70,7 +67,6 @@ export default class Day extends React.PureComponent {
         onClick={this.handleDayClick}>
         <div className='calendar-day-inner'>
           <span className='day-name'>{mDate.format('ddd')}</span>
-          <span className='month-name'>{mDate.format('MMM')}</span>
           <span className='day-number'>{this.props.date.getDate()}</span>
 
           {this.renderCount()}

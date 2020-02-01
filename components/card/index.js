@@ -1,7 +1,6 @@
 import { chunk, find, get } from 'lodash';
 
 import { KEYWORDS } from '../../lib/constants';
-import { createStringsForDate } from '../../lib/utils';
 import TextExpander from '../text-expander';
 import style, { inner } from './style';
 
@@ -97,10 +96,6 @@ const getCellData2 = (dataset, todayAsISO) => {
   }).filter((f) => f)
 }
 
-const constructDatasetFilter = (d) => {
-  return encodeURIComponent(`+[>[${createStringsForDate(d).join(' OR ')}]]`);
-};
-
 const Card = (props) => (
   <article key={props.dataset.id} className='card'>
     <h5>
@@ -122,13 +117,6 @@ const Card = (props) => (
     <div className="card-dataset-data">
       {getCellData2(props.dataset, props.todayAsISO)}
     </div>
-    <a className='dataset-link' target="_blank" href={`https://public.enigma.com/datasets/${props.dataset.id}?filter=${constructDatasetFilter(props.date)}`}>
-      {
-        props.dataset.current_snapshot.table_rows.count === 1
-        ? 'View this record'
-        : `View all ${props.dataset.current_snapshot.table_rows.count.toLocaleString()} records`
-      }
-    </a>
 
     <style jsx>{ style }</style>
   </article>
