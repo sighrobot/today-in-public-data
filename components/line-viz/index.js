@@ -21,7 +21,7 @@ export default class LineViz extends React.PureComponent {
         <ResponsiveLine
           data={this.props.data}
           animate={true}
-          colors={['rgba(255, 255, 0, 0.5)']}
+          colors={['rgba(255, 205, 0, 0.6)']}
           enablePoints={false}
           enableGridX={false}
           enableGridY={false}
@@ -35,7 +35,7 @@ export default class LineViz extends React.PureComponent {
           axisBottom={{tickSize: 0}}
           axisLeft={{tickSize: 0}}
           minY='auto'
-          lineWidth={2}
+          lineWidth={2.5}
           curve='linear' />
 
         <style jsx>{ style }</style>

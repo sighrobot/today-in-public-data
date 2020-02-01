@@ -5,6 +5,7 @@ export default css`
     position: relative;
     margin: 0;
     padding: 0;
+    background: #3f454e;
   }
 
   .days-wrapper {

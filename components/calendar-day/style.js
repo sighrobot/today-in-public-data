@@ -2,17 +2,17 @@ import css from 'styled-jsx/css'
 
 export const countStyle = css`
   .calendar-day-count {
-    margin-top: 8px;
+    margin-top: 5px;
     line-height: 1
   }
 
   .calendar-day-count strong {
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 500;
   }
 
   .calendar-day-count small {
-    font-size: 11px;
+    font-size: 9px;
     font-weight: 100;
   }
 `
@@ -30,13 +30,12 @@ export default css`
   }
 
   .calendar-day:not(.calendar-day-active) {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.15);
   }
 
   .calendar-day:not(:disabled):hover {
     background: rgba(255, 255, 255, 0.05);
     cursor: pointer;
-    text-shadow: 5px 5px 1px rgba(255, 0, 0, 0.3), -5px -5px 1px rgba(0, 0, 255, 0.3);
   }
 
   .calendar-day:not(:disabled):active {
@@ -60,7 +59,7 @@ export default css`
     flex-direction: column;
     flex-grow: 1;
     justify-content: center;
-    padding: 16px 0;
+    padding: 10px 0;
     text-align: center;
     user-select: none;
     width: 100%;
@@ -70,22 +69,15 @@ export default css`
     line-height: 1;
   }
 
-  .month-name,
   .day-name {
+    font-size: 8px;
     font-weight: 100;
-    margin-bottom: 2px;
+    margin-bottom: 3px;
     text-transform: uppercase;
   }
 
-  .month-name {
-    font-size: 14px;
-  }
-
-  .day-name {
-    font-size: 8px;
-  }
-
   .day-number {
-    font-size: 22px;
+    font-weight: 200;
+    font-size: 12px;
   }
 `

@@ -1,33 +1,40 @@
 import React from 'react';
 import Router from 'next/router';
+import { withRouter } from 'next/router'
 import moment from 'moment';
-import {get, flatten, pick, uniqBy} from 'lodash';
+import {get, mapValues} from 'lodash';
 
 import {
-  createStringsForDate,
-  fetchForDateString,
+  fetchData,
   getISO,
 } from '../lib/utils';
 
-import Calendar from '../components/calendar';
-import Card from '../components/card'
+import sources from '../lib/sources'
+
 import Head from '../components/head'
 import Loader from '../components/loader'
 import Nav from '../components/nav'
 import Footer from '../components/footer'
+import Planner from '../components/planner'
+import ControlBar from '../components/control-bar'
 
-export default class App extends React.PureComponent {
-  constructor(props) {
-    super(props);
+class App extends React.PureComponent {
+  static getInitialProps() {
+    return {}
+  }
 
-    const dateStringFromUrl = get(props, 'url.query.date');
+  initDate = () => {
+    const dateStringFromUrl = get(this.props, 'router.query.date');
 
-    this.state = {
-      countsByDate: {},
-      date: dateStringFromUrl ? moment(dateStringFromUrl).toDate() : new Date(),
-      datasets: null,
-      isLoading: true,
-    };
+    return dateStringFromUrl ? moment(dateStringFromUrl).toDate() : new Date();
+  }
+
+  state = {
+    countsByDate: {},
+    date: this.initDate(),
+    isLoading: true,
+    data: null,
+    sourceVisibility: mapValues(sources, () => true)
   }
 
   setCount = (date, count) => this.setState((state) => ({
@@ -38,28 +45,21 @@ export default class App extends React.PureComponent {
   }))
 
   updateRoute = (d) => {
-    const nextRouting = {pathname: '/'};
+    const nextRouting = {pathname: '/', query: {
+      date: this.props.router.query.date,
+    }};
 
-    if (d) { nextRouting.query = {date: moment(d).format('YYYY-MM-DD')}; }
+    if (d) {
+      nextRouting.query.date = moment(d).format('YYYY-MM-DD');
+    }
 
     Router.push(nextRouting);
   }
 
-  loadDataOn = () => {
-    const strings = createStringsForDate(this.state.date);
+  loadDataOn = async () => {
+    const { body }  = await fetchData(this.state.date);
 
-    Promise.all(strings.map(fetchForDateString)).then((responses) => {
-      Promise.all(responses.map((r) => r.json())).then((jsons) => {
-        const flattened = flatten(jsons);
-
-        flattened.sort((d1, d2) => get(d1, 'score') < get(d2, 'score') ? 1 : -1);
-
-        this.setState((state) => ({
-          datasets: uniqBy(flattened, 'id').map((d) => pick(d, 'description', 'id', 'display_name', 'name', 'current_snapshot', 'ancestors', 'score')),
-          isLoading: false,
-        }));
-      });
-    });
+    this.setState({ data: body, isLoading: false });
   }
 
   componentDidMount() {
@@ -72,71 +72,47 @@ export default class App extends React.PureComponent {
     this.setState({date: d || new Date(), isLoading: true}, this.loadDataOn);
   }
 
-  renderCard = (dataset, idx) => {
-    return (
-      <Card
-        key={idx}
-        dataset={dataset}
-        date={this.state.date}
-        todayAsISO={getISO(this.state.date)} />
-    );
+  handleToggleSource = (e) => {
+    e.persist();
+
+    this.setState(state => {
+      const newSourceVisibility = { ...state.sourceVisibility };
+
+      newSourceVisibility[e.target.name] = e.target.checked;
+
+      return {
+        ...state,
+        sourceVisibility: newSourceVisibility,
+      }
+    })
+
   }
 
   renderContent() {
     if (this.props.content) { return this.props.content; }
 
-    if (this.state.isLoading) { return <Loader />; }
 
     return (
-      <div className='content'>
-        {this.state.datasets ? this.state.datasets.map(this.renderCard) : null}
+      <main>
+        <ControlBar
+          dateForPicker={this.state.date}
+          onToggleSource={this.handleToggleSource}
+          sourceVisibility={this.state.sourceVisibility}
+          handleFetchDate={this.handleFetchDate}
+        />
 
-        {this.maybeRenderSearchLink()}
-        <style jsx>{`
-          .content {
-            height: 100%;
-            padding: 0 20px;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-          }
-        `}</style>
-      </div>
+        {this.state.isLoading ? <Loader /> :
+        <Planner
+          data={this.state.data}
+          sourceVisibility={this.state.sourceVisibility}
+        />}
+      </main>
     );
-  }
-
-  maybeRenderSearchLink() {
-    if (!this.state.isLoading) {
-      return (
-        <aside className='search-link-wrapper'>
-          <h3>Looking for more data?</h3>
-          <p>Full search results are available on Enigma Public!</p>
-
-          <a target="_blank" href={`https://public.enigma.com/search/${encodeURIComponent(createStringsForDate(this.state.date).join(' || '))}`}>
-            View all of today's datasets
-          </a>
-
-          <style jsx>{`
-            .search-link-wrapper {
-              padding: 100px 0;
-              margin: 0 auto;
-              max-width: 1200px;
-            }
-
-            h3 {
-              margin: 0;
-            }
-            a:after {
-              content: ' ↗';
-            }
-          `}</style>
-        </aside>
-      );
-    }
   }
 
   render() {
     return (
-      <div className='wrapper'>
+      <>
         <Head
           title={`${moment(this.state.date).format('MMMM D, YYYY')} – Today in Public Data`}
           description={`What's happening in public data on ${moment(this.state.date).format('MMMM D, YYYY')}?`}/>
@@ -145,35 +121,18 @@ export default class App extends React.PureComponent {
           date={this.state.date}
           counts={this.state.countsByDate}
           fetchDateFunc={this.handleFetchDate}
-          setCountFunc={this.setCount} />
+          setCountFunc={this.setCount}
+        />
 
         {this.renderContent()}
 
         <Footer />
 
-        <style jsx>{`
-          :global(*) {
-            box-sizing: border-box;
-          }
-
-          :global(body) {
-            background: white;
-            font-family: -apple-system,BlinkMacSystemFont,Avenir Next,Avenir,Helvetica,sans-serif;
-            margin: 0;
-          }
-
-          nav {
-            flex-shrink: 0;
-          }
-
-          .wrapper {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-          }
-        `}</style>
-      </div>
+        <script> </script>
+        {/* https://github.com/zeit/next-plugins/issues/455#issuecomment-489452379 */}
+      </>
     );
   }
 }
+
+export default withRouter(App)

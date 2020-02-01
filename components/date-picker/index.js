@@ -1,9 +1,9 @@
 import React from 'react';
 import moment from 'moment';
+import RDP from 'react-datepicker';
 
 import { getISO } from '../../lib/utils';
-import Calendar from '../calendar';
-import style from './style';
+import './style.styl'
 
 export default class DatePicker extends React.PureComponent {
   updateDate = (props = this.props) => getISO(props.date)
@@ -18,7 +18,7 @@ export default class DatePicker extends React.PureComponent {
     }
   }
 
-  handleChangeDate = ({target}) => this.setState({dateForPicker: target.value})
+  handleChangeDate = (d) => this.setState({ dateForPicker: d })
 
   submitDate = (e) => {
     e.preventDefault();
@@ -33,12 +33,14 @@ export default class DatePicker extends React.PureComponent {
   render() {
     return (
       <form className='date-picker' onSubmit={this.submitDate}>
-        <input
-          autoFocus
+        <RDP
           className='date-picker-input'
+          dateFormat='yyyy/MM/dd'
+          disabledKeyboardNavigation
           onChange={this.handleChangeDate}
-          type='date'
-          value={this.state.dateForPicker} />
+          selected={new Date(this.state.dateForPicker)}
+          todayButton='Today'
+        />
 
         <button
           type='submit'
@@ -46,8 +48,6 @@ export default class DatePicker extends React.PureComponent {
           disabled={getISO(this.props.date) === this.state.dateForPicker}>
           Go
         </button>
-
-        <style jsx>{ style }</style>
       </form>
     );
   }
