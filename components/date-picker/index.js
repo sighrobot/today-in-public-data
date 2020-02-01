@@ -23,11 +23,7 @@ export default class DatePicker extends React.PureComponent {
   submitDate = (e) => {
     e.preventDefault();
 
-    const {dateForPicker} = this.state;
-
-    this.props.fetchDateFunc(
-      dateForPicker ? new Date(moment(dateForPicker).format()) : undefined
-    );
+    this.props.fetchDateFunc(new Date(moment(this.state.dateForPicker).utc()));
   }
 
   render() {
@@ -35,19 +31,14 @@ export default class DatePicker extends React.PureComponent {
       <form className='date-picker' onSubmit={this.submitDate}>
         <RDP
           className='date-picker-input'
-          dateFormat='yyyy/MM/dd'
+          dateFormat='MMM dd, yyyy'
+          showYearDropdown
           disabledKeyboardNavigation
           onChange={this.handleChangeDate}
-          selected={new Date(this.state.dateForPicker)}
+          selected={new Date(moment(this.state.dateForPicker).utc())}
           todayButton='Today'
+          onBlur={this.submitDate}
         />
-
-        <button
-          type='submit'
-          className='date-submit'
-          disabled={getISO(this.props.date) === this.state.dateForPicker}>
-          Go
-        </button>
       </form>
     );
   }

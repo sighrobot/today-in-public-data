@@ -22,11 +22,11 @@ export default class Nav extends React.PureComponent {
   render() {
     return (
       <nav>
-          {this.renderTitle()}
-
-          {/* <DatePicker
+          <DatePicker
             date={this.props.date}
-            fetchDateFunc={this.props.fetchDateFunc} /> */}
+            fetchDateFunc={this.props.fetchDateFunc} />
+
+            in Public Data
       </nav>
     );
   }
