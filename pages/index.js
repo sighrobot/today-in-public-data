@@ -5,7 +5,6 @@ import moment from 'moment'
 import { get, mapValues } from 'lodash'
 
 import { fetchData, getISO } from '../lib/utils'
-
 import sources from '../lib/sources'
 
 import Head from '../components/head'
