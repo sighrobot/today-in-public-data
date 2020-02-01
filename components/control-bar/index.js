@@ -11,7 +11,6 @@ export default ({ dateForPicker, onToggleSource, sourceVisibility, handleFetchDa
             <RDP
                 className='date-picker-input'
                 dateFormat='yyyy/MM/dd'
-                showYearDropdown
                 onChange={(d) => {
                     handleFetchDate(moment(d))
                 }}
