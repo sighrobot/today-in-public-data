@@ -11,21 +11,20 @@ const handle = app.getRequestHandler()
 const makeRequest = (sourceKey, date) => {
   const source = sources[sourceKey]
 
-  return new Promise(async (resolve) => {
+  return new Promise(async resolve => {
     try {
-      const response = await request
-        .get(source.baseUrl)
-        .query(
-          source.dateFields.map((dateField) => {
+      const response = await request.get(source.baseUrl).query(
+        source.dateFields
+          .map(dateField => {
             return `${dateField.name}=${dateField.value(date)}`
-          }).concat(
-            source.query.map((param) => `${param.name}=${param.value}`)
-          ).join('&')
-        )
+          })
+          .concat(source.query.map(param => `${param.name}=${param.value}`))
+          .join('&')
+      )
 
-        resolve(response)
+      resolve(response)
     } catch (err) {
-      resolve({ response: { body: null }})
+      resolve({ response: { body: null } })
     }
   })
 }
@@ -39,14 +38,16 @@ app.prepare().then(() => {
 
     if (pathname === '/data') {
       const sourceKeys = Object.keys(sources)
-      const responses = await Promise.all(sourceKeys.map(sourceKey => makeRequest(sourceKey, query.date)))
+      const responses = await Promise.all(
+        sourceKeys.map(sourceKey => makeRequest(sourceKey, query.date))
+      )
 
       const collated = {}
 
       responses.forEach((response, idx) => {
         collated[sourceKeys[idx]] = response.body
       })
-      
+
       res.setHeader('Content-Type', 'application/json')
       res.end(JSON.stringify(collated))
     } else {

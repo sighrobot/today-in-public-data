@@ -1,37 +1,46 @@
-import React from 'react';
+import React from 'react'
+import { isFunction } from 'lodash'
+import moment from 'moment'
 
-import OpenCorporates  from './open-corporates'
-import WeThePeople  from './we-the-people'
-import FccEcfs from './fcc-ecfs'
-import Caselaw from './caselaw'
-import USGSEarthquakes from './usgs-earthquakes'
-import NASAFireball from './nasa-fireball'
+import sources from '../../lib/sources'
 
 import { getHighlightStyle } from '../../lib/constants'
 import './style.styl'
 
-const getSourceComponent = (sourceKey) => {
-    switch (sourceKey) {
-        case 'open_corporates':
-            return OpenCorporates
-        case 'we_the_people':
-            return WeThePeople
-        case 'fcc_ecfs':
-            return FccEcfs
-        case 'caselaw':
-            return Caselaw
-        case 'usgs_earthquakes':
-            return USGSEarthquakes
-        case 'nasa_jpl_fireball':
-            return NASAFireball
-        default:
-            return 'div'
-
-    }
-}
+const OFFSET = 100
+const TIME_FMT = 'h:MMa'
 
 export default ({ data, sourceKey, sourceIndex }) => {
-    const Component = getSourceComponent(sourceKey)
+  const source = sources[sourceKey]
+  const count = source.get.count(data)
+  const collection = source.get.collection(data)
 
-    return <Component data={data} style={getHighlightStyle(sourceIndex)} />
+  return (
+    <div className="agenda">
+      {count > 0
+        ? collection.map(item => {
+            const time = isFunction(source.get.time)
+              ? moment(source.get.time(item)).format(TIME_FMT)
+              : source.get.time
+
+            return (
+              <a href={source.get.url(item)} target="_blank">
+                <div
+                  className="agenda-item"
+                  style={getHighlightStyle(sourceIndex)}
+                >
+                  <h4>{source.get.title(item)}</h4>
+                  <p>{time}</p>
+                </div>
+              </a>
+            )
+          })
+        : null}
+
+      {count > OFFSET ? (
+        <aside>+ {(count - OFFSET).toLocaleString()} more</aside>
+      ) : null}
+      {count === 0 ? <aside>No events today.</aside> : null}
+    </div>
+  )
 }
