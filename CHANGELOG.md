@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## `v2.0.2` - 2020-02-02
+
+- Add field getters to data source definitions and remove custom data source components
+- Small reskin of new layout
+- Add code style tooling
+- Remove remaining unused files and deps
+
 ## `v2.0.1` - 2020-02-01
 
 - Better mobile support
