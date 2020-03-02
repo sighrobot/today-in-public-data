@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## `v2.1.0` - 2020-03-01
+
+- Add calendar layout
+- Add NYC 311 data sources
+
 ## `v2.0.2` - 2020-02-02
 
 - Add field getters to data source definitions and remove custom data source components
