@@ -103,6 +103,7 @@ class App extends React.PureComponent {
 
         <Planner
           data={this.state.data}
+          date={this.state.date}
           sourceVisibility={this.state.sourceVisibility}
           loading={this.state.isLoading}
         />
