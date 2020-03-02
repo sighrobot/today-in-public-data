@@ -1,11 +1,12 @@
 import React from 'react'
+import { sortBy } from 'lodash'
 import sources from '../../lib/sources'
 import { getHighlightStyle } from '../../lib/constants'
 
 import './style.styl'
 
 export default ({ onToggleSource, sourceVisibility = {} }) => {
-  const sourceKeys = Object.keys(sources)
+  const sourceKeys = sortBy(Object.keys(sources), k => sources[k].name)
   const filters = sourceKeys.map((sourceKey, idx) => {
     return (
       <label
