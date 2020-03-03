@@ -18,7 +18,9 @@ const makeRequest = (sourceKey, date) => {
           .map(dateField => {
             return `${dateField.name}=${dateField.value(date)}`
           })
-          .concat(source.query.map(param => `${param.name}=${param.value}`))
+          .concat(
+            (source.query || []).map(param => `${param.name}=${param.value}`)
+          )
           .join('&')
       )
 
