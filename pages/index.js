@@ -29,7 +29,9 @@ class App extends React.PureComponent {
     date: this.initDate(),
     isLoading: true,
     data: null,
-    sourceVisibility: mapValues(sources, () => true),
+    sourceVisibility: mapValues(sources, (value, key) =>
+      ['nasa_neo', 'open_corporates', 'usgs_earthquakes'].includes(key)
+    ),
   }
 
   setCount = (date, count) =>
@@ -55,11 +57,22 @@ class App extends React.PureComponent {
     Router.push(nextRouting)
   }
 
-  loadDataOn = async () => {
-    const { body } = await fetchData(this.state.date)
+  loadDataOn = () => {
+    Object.keys(this.state.sourceVisibility)
+      .filter(k => this.state.sourceVisibility[k])
+      .forEach(k => {
+        this.loady(k)
+      })
+  }
+
+  loady = async key => {
+    const { body } = await fetchData(this.state.date, [key])
     // const body = require('../lib/fake.json')
 
-    this.setState({ data: body, isLoading: false })
+    this.setState({
+      data: Object.assign({}, this.state.data, body),
+      isLoading: false,
+    })
   }
 
   componentDidMount() {
@@ -74,6 +87,10 @@ class App extends React.PureComponent {
 
   handleToggleSource = e => {
     e.persist()
+
+    if (e.target.checked) {
+      this.loady(e.target.name)
+    }
 
     this.setState(state => {
       const newSourceVisibility = { ...state.sourceVisibility }

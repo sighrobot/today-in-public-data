@@ -15,10 +15,9 @@ export default ({ data, date, sourceVisibility, loading }) => {
   return (
     <div className="planner">
       <div className="planner-headers">
-        <aside></aside>
         {sourceKeys.map((sourceKey, idx) => {
           if (!sourceVisibility[sourceKey]) return null
-          return <h3>{sources[sourceKey].name}</h3>
+          return <h3 key={sourceKey}>{sources[sourceKey].name}</h3>
         })}
       </div>
 
@@ -27,7 +26,7 @@ export default ({ data, date, sourceVisibility, loading }) => {
       <div
         className="planner-agendas"
         style={{
-          width: `${visible.length * 700}px`,
+          width: `${visible.length * 560}px`,
         }}
       >
         {!loading &&
@@ -37,7 +36,7 @@ export default ({ data, date, sourceVisibility, loading }) => {
 
             return (
               <section className="planner-section" key={sourceKey}>
-                <Grid numbers={idx % 2 === 0} />
+                <Grid numbers />
                 <Agenda
                   data={data[sourceKey]}
                   date={date}
