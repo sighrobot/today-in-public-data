@@ -3,7 +3,7 @@ const moment = require('moment')
 
 module.exports = {
   nyc_311_edc: {
-    name: 'NYC Economic Development Corporation',
+    name: 'NYC 311 Economic Development Corporation',
     web: 'https://api.opencorporates.com/documentation/API-Reference',
     baseUrl: 'https://data.cityofnewyork.us/resource/erm2-nwe9.json',
     query: [],

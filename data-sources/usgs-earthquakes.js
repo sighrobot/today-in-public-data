@@ -3,7 +3,7 @@ const moment = require('moment')
 
 module.exports = {
   usgs_earthquakes: {
-    name: 'Earthquakes',
+    name: 'USGS Earthquakes',
     web: 'https://earthquake.usgs.gov/fdsnws/event/1/',
     baseUrl: 'https://earthquake.usgs.gov/fdsnws/event/1/query',
     query: [{ name: 'format', value: 'geojson' }],

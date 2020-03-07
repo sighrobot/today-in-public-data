@@ -3,7 +3,7 @@ const moment = require('moment')
 
 module.exports = {
   nyc_311_dsny: {
-    name: 'NYC Sanitation',
+    name: 'NYC 311 Sanitation',
     web: 'https://api.opencorporates.com/documentation/API-Reference',
     baseUrl: 'https://data.cityofnewyork.us/resource/erm2-nwe9.json',
     query: [],

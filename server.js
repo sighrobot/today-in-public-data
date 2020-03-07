@@ -36,12 +36,17 @@ app.prepare().then(() => {
     // Be sure to pass `true` as the second argument to `url.parse`.
     // This tells it to parse the query portion of the URL.
     const parsedUrl = parse(req.url, true)
-    const { pathname, query } = parsedUrl
+    const {
+      pathname,
+      query: { date, sources: sourcesToFetch = '' },
+    } = parsedUrl
 
     if (pathname === '/data') {
-      const sourceKeys = Object.keys(sources)
+      const sourceKeys = Object.keys(sources).filter(
+        s => sourcesToFetch.indexOf(s) !== -1
+      )
       const responses = await Promise.all(
-        sourceKeys.map(sourceKey => makeRequest(sourceKey, query.date))
+        sourceKeys.map(sourceKey => makeRequest(sourceKey, date))
       )
 
       const collated = {}

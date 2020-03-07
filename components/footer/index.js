@@ -15,7 +15,7 @@ export default class Footer extends React.PureComponent {
           >
             v{p.version}
           </a>{' '}
-          <strong>made with public and open data</strong> by{' '}
+          made with public and open data by{' '}
           <a
             className="outbound"
             target="_blank"

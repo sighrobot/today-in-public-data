@@ -3,7 +3,7 @@ const moment = require('moment')
 
 module.exports = {
   nyc_311_dot: {
-    name: 'NYC Transportation',
+    name: 'NYC 311 Transportation',
     web: 'https://api.opencorporates.com/documentation/API-Reference',
     baseUrl: 'https://data.cityofnewyork.us/resource/erm2-nwe9.json',
     query: [],

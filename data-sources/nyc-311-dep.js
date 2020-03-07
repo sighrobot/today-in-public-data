@@ -3,7 +3,7 @@ const moment = require('moment')
 
 module.exports = {
   nyc_311_dep: {
-    name: 'NYC Environmental Protection',
+    name: 'NYC 311 Environmental Protection',
     web: 'https://api.opencorporates.com/documentation/API-Reference',
     baseUrl: 'https://data.cityofnewyork.us/resource/erm2-nwe9.json',
     query: [],

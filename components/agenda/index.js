@@ -9,7 +9,8 @@ import './style.styl'
 
 const TIME_FMT = 'h:mma'
 const HOUR_HEIGHT = 100
-const AGENDA_WIDTH = 700
+const AGENDA_WIDTH = 560
+const PADDING_RIGHT = 35
 
 export default ({ data, date, sourceKey, sourceIndex }) => {
   const source = sources[sourceKey]
@@ -62,13 +63,14 @@ export default ({ data, date, sourceKey, sourceIndex }) => {
                     style={{
                       top: `${pos}px`,
                       zIndex: hidx + idx + 2,
-                      left: `${50 +
-                        (idx / hours[hc].length) * (AGENDA_WIDTH - 50)}px`,
+                      left: `${PADDING_RIGHT +
+                        (idx / hours[hc].length) *
+                          (AGENDA_WIDTH - PADDING_RIGHT)}px`,
                       right: `${AGENDA_WIDTH -
-                        ((AGENDA_WIDTH - 50) / hours[hc].length +
-                          (50 +
+                        ((AGENDA_WIDTH - PADDING_RIGHT) / hours[hc].length +
+                          (PADDING_RIGHT +
                             (idx / hours[hc].length) *
-                              (AGENDA_WIDTH - 50)))}px`,
+                              (AGENDA_WIDTH - PADDING_RIGHT)))}px`,
                       ...getHighlightStyle(sourceIndex),
                     }}
                   >

@@ -5,7 +5,7 @@ const { OPEN_CORPORATES_API } = require('./_authParams')
 
 module.exports = {
   open_corporates: {
-    name: 'Corporate Registration Updates',
+    name: 'OpenCorporates',
     web: 'https://api.opencorporates.com/documentation/API-Reference',
     baseUrl: 'https://api.opencorporates.com/v0.4/companies/search',
     query: [
