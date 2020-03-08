@@ -11,6 +11,7 @@ import Head from '../components/head'
 import Nav from '../components/nav'
 import Footer from '../components/footer'
 import Planner from '../components/planner'
+import Schedule from '../components/schedule'
 import ControlBar from '../components/control-bar'
 
 class App extends React.PureComponent {
@@ -32,6 +33,7 @@ class App extends React.PureComponent {
     sourceVisibility: mapValues(sources, (value, key) =>
       ['nasa_neo', 'open_corporates', 'usgs_earthquakes'].includes(key)
     ),
+    view: 'planner',
   }
 
   setCount = (date, count) =>
@@ -41,6 +43,11 @@ class App extends React.PureComponent {
         [getISO(date)]: count,
       },
     }))
+
+  toggleView = () =>
+    this.setState({
+      view: this.state.view === 'planner' ? 'schedule' : 'planner',
+    })
 
   updateRoute = d => {
     const nextRouting = {
@@ -118,12 +125,21 @@ class App extends React.PureComponent {
           handleFetchDate={this.handleFetchDate}
         />
 
-        <Planner
-          data={this.state.data}
-          date={this.state.date}
-          sourceVisibility={this.state.sourceVisibility}
-          loading={this.state.isLoading}
-        />
+        {this.state.view === 'planner' ? (
+          <Planner
+            data={this.state.data}
+            date={this.state.date}
+            sourceVisibility={this.state.sourceVisibility}
+            loading={this.state.isLoading}
+          />
+        ) : (
+          <Schedule
+            data={this.state.data}
+            date={this.state.date}
+            sourceVisibility={this.state.sourceVisibility}
+            loading={this.state.isLoading}
+          />
+        )}
       </main>
     )
   }
@@ -145,6 +161,7 @@ class App extends React.PureComponent {
           counts={this.state.countsByDate}
           fetchDateFunc={this.handleFetchDate}
           setCountFunc={this.setCount}
+          handleViewChange={this.toggleView}
         />
 
         {this.renderContent()}

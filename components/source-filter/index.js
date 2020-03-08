@@ -12,29 +12,7 @@ export default ({ onToggleSource, sourceVisibility = {} }) => {
 
   const [visible, hidden] = partition(sourceKeys, sk => sourceVisibility[sk])
 
-  const visibleFilters = visible
-    .filter(
-      sk => sources[sk].name.toLowerCase().indexOf(value.toLowerCase()) !== -1
-    )
-    .map(sourceKey => {
-      return (
-        <label
-          key={sourceKey}
-          className={sourceVisibility[sourceKey] ? '' : 'source-filter-hidden'}
-          style={getHighlightStyle(sourceKeys.indexOf(sourceKey))}
-        >
-          <input
-            name={sourceKey}
-            onChange={onToggleSource}
-            checked={sourceVisibility[sourceKey]}
-            type="checkbox"
-          />
-          <span>{sources[sourceKey].name}</span>
-        </label>
-      )
-    })
-
-  const hiddenFilters = hidden
+  const filters = sourceKeys
     .filter(
       sk => sources[sk].name.toLowerCase().indexOf(value.toLowerCase()) !== -1
     )
@@ -65,11 +43,7 @@ export default ({ onToggleSource, sourceVisibility = {} }) => {
         value={value}
         onChange={handleChange}
       />
-      <div className="source-list">
-        {/* {filters} */}
-        {visibleFilters}
-        {hiddenFilters}
-      </div>
+      <div className="source-list">{filters}</div>
     </div>
   )
 }

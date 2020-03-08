@@ -4,10 +4,9 @@ import moment from 'moment'
 
 import sources from '../../lib/sources'
 
-import { getHighlightStyle } from '../../lib/constants'
+import { getHighlightStyle, TIME_FMT } from '../../lib/constants'
 import './style.styl'
 
-const TIME_FMT = 'h:mma'
 const HOUR_HEIGHT = 100
 const AGENDA_WIDTH = 560
 const PADDING_RIGHT = 35
