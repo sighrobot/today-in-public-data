@@ -23,6 +23,10 @@ export default class Nav extends React.PureComponent {
           fetchDateFunc={this.props.fetchDateFunc}
         />
         in Public Data
+        <select onChange={this.props.handleViewChange}>
+          <option>Planner</option>
+          <option>Schedule</option>
+        </select>
       </nav>
     )
   }
