@@ -1,8 +1,14 @@
 # CHANGELOG
 
+## `v2.2.0` - 2020-03-16
+
+- Add schedule layout
+- Fetch data source by source
+- Deploy with ZEIT Now
+
 ## `v2.1.0` - 2020-03-01
 
-- Add calendar layout
+- Add calendar (planner) layout
 - Add NYC 311 data sources
 
 ## `v2.0.2` - 2020-02-02
