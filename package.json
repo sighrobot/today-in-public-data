@@ -5,9 +5,9 @@
   "repository": "https://github.com/sighrobot/today-in-public-data",
   "version": "2.1.0",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "next dev",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js"
+    "start": "next start"
   },
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
