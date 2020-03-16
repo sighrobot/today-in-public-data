@@ -15,10 +15,6 @@ import Schedule from '../components/schedule'
 import ControlBar from '../components/control-bar'
 
 class App extends React.PureComponent {
-  static getInitialProps() {
-    return {}
-  }
-
   initDate = () => {
     const dateStringFromUrl = get(this.props, 'router.query.date')
 
