@@ -11,13 +11,10 @@ import Head from '../components/head'
 import Nav from '../components/nav'
 import Footer from '../components/footer'
 import Planner from '../components/planner'
+import Schedule from '../components/schedule'
 import ControlBar from '../components/control-bar'
 
 class App extends React.PureComponent {
-  static getInitialProps() {
-    return {}
-  }
-
   initDate = () => {
     const dateStringFromUrl = get(this.props, 'router.query.date')
 
@@ -29,7 +26,10 @@ class App extends React.PureComponent {
     date: this.initDate(),
     isLoading: true,
     data: null,
-    sourceVisibility: mapValues(sources, () => true),
+    sourceVisibility: mapValues(sources, (value, key) =>
+      ['nasa_neo', 'open_corporates', 'usgs_earthquakes'].includes(key)
+    ),
+    view: 'planner',
   }
 
   setCount = (date, count) =>
@@ -39,6 +39,11 @@ class App extends React.PureComponent {
         [getISO(date)]: count,
       },
     }))
+
+  toggleView = () =>
+    this.setState({
+      view: this.state.view === 'planner' ? 'schedule' : 'planner',
+    })
 
   updateRoute = d => {
     const nextRouting = {
@@ -55,11 +60,22 @@ class App extends React.PureComponent {
     Router.push(nextRouting)
   }
 
-  loadDataOn = async () => {
-    const { body } = await fetchData(this.state.date)
+  loadDataOn = () => {
+    Object.keys(this.state.sourceVisibility)
+      .filter(k => this.state.sourceVisibility[k])
+      .forEach(k => {
+        this.loady(k)
+      })
+  }
+
+  loady = async key => {
+    const { body } = await fetchData(this.state.date, [key])
     // const body = require('../lib/fake.json')
 
-    this.setState({ data: body, isLoading: false })
+    this.setState({
+      data: Object.assign({}, this.state.data, body),
+      isLoading: false,
+    })
   }
 
   componentDidMount() {
@@ -74,6 +90,10 @@ class App extends React.PureComponent {
 
   handleToggleSource = e => {
     e.persist()
+
+    if (e.target.checked) {
+      this.loady(e.target.name)
+    }
 
     this.setState(state => {
       const newSourceVisibility = { ...state.sourceVisibility }
@@ -101,12 +121,21 @@ class App extends React.PureComponent {
           handleFetchDate={this.handleFetchDate}
         />
 
-        <Planner
-          data={this.state.data}
-          date={this.state.date}
-          sourceVisibility={this.state.sourceVisibility}
-          loading={this.state.isLoading}
-        />
+        {this.state.view === 'planner' ? (
+          <Planner
+            data={this.state.data}
+            date={this.state.date}
+            sourceVisibility={this.state.sourceVisibility}
+            loading={this.state.isLoading}
+          />
+        ) : (
+          <Schedule
+            data={this.state.data}
+            date={this.state.date}
+            sourceVisibility={this.state.sourceVisibility}
+            loading={this.state.isLoading}
+          />
+        )}
       </main>
     )
   }
@@ -128,6 +157,7 @@ class App extends React.PureComponent {
           counts={this.state.countsByDate}
           fetchDateFunc={this.handleFetchDate}
           setCountFunc={this.setCount}
+          handleViewChange={this.toggleView}
         />
 
         {this.renderContent()}

@@ -1,0 +1,6 @@
+{
+  "env": {
+    "DATA_GOV": "@data-gov",
+    "OPEN_CORPORATES": "@open-corporates"
+  }
+}

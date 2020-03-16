@@ -12,7 +12,7 @@ export default ({
   handleFetchDate,
 }) => {
   return (
-    <form className="control-bar">
+    <div className="control-bar">
       <RDP
         className="date-picker-input"
         dateFormat="yyyy/MM/dd"
@@ -29,6 +29,6 @@ export default ({
         onToggleSource={onToggleSource}
         sourceVisibility={sourceVisibility}
       />
-    </form>
+    </div>
   )
 }

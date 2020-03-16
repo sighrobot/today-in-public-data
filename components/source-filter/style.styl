@@ -1,27 +1,46 @@
 .source-filter {
-    overflow-y: auto;
-    padding: 0 15px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .source-list {
+        overflow-y: auto;
+    }
+
+    > input {
+        flex-shrink: 0;
+        height: 36px;
+        line-height: normal;
+        padding: 0 8px;
+        width: 100%;
+        font-size: 13px;
+        outline: 0;
+        margin-bottom: 16px;
+        font-family: inherit;
+    }
 
     label {
-        height: 40px;
+        height: 36px;
         display: flex;
         align-items: center;
-        font-size: 12px;
+        font-size: 13px;
         cursor: pointer;
         user-select: none;
-
-        &.source-filter-hidden {
-            opacity: 0.5;
-        }
+        padding: 0 8px;
+        line-height: normal;
 
         &:hover {
             opacity: 0.75;
         }
 
-        input {
+        &.source-filter-hidden {
+            background: none !important;
+            color: #16161d !important;
+        }
+
+        input[type="checkbox"] {
             cursor: pointer;
-            flex-shrink: 0;
-            margin: 0 10px;
+            display: none;
         }
 
         span {
