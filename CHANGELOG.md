@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## `v2.3.1` - 2020-03-23
+
+- Restore masthead
+- Refine data source UI
+
 ## `v2.3.0` - 2020-03-22
 
 - Completely new layout and design

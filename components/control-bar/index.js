@@ -6,16 +6,18 @@ import moment from 'moment'
 import './style.styl'
 import '../date-picker/style.styl'
 
+const p = require('../../package.json')
+
 export default ({
   dateForPicker,
   onToggleSource,
   sourceVisibility,
   handleFetchDate,
-  menu
+  menu,
 }) => {
   return (
     <div className={`control-bar ${menu ? 'control-bar-open' : ''}`}>
-      <div className='date-control-wrapper'>
+      <div className="date-control-wrapper">
         <RDP
           className="date-picker-input"
           dateFormat="yyyy/MM/dd"
@@ -26,7 +28,7 @@ export default ({
           selected={new Date(dateForPicker)}
           todayButton="Today"
           showMonthDropdown
-      showYearDropdown
+          showYearDropdown
           inline
         />
       </div>
@@ -35,6 +37,19 @@ export default ({
         onToggleSource={onToggleSource}
         sourceVisibility={sourceVisibility}
       />
+      <small>
+        Made by{' '}
+        <a href="https://twitter.com/sighrobot" target="_blank">
+          @sighrobot
+        </a>{' '}
+        &middot;{' '}
+        <a
+          href={`https://github.com/sighrobot/today-in-public-data/releases/tag/v${p.version}`}
+          target="_blank"
+        >
+          v{p.version}
+        </a>
+      </small>
     </div>
   )
 }

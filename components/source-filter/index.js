@@ -38,11 +38,11 @@ export default ({ onToggleSource, sourceVisibility = {} }) => {
 
   return (
     <div className="source-filter">
-      {/* <input
+      <input
         placeholder="Filter data sources"
         value={value}
         onChange={handleChange}
-      /> */}
+      />
       <div className="source-list">{filters}</div>
     </div>
   )
