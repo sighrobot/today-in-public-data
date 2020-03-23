@@ -29,7 +29,7 @@ module.exports = {
       title: item => get(item, 'properties.title'),
       url: item => get(item, 'properties.url'),
       time: item => get(item, 'properties.time', 0),
-      count: data => get(data, 'metadata.count', 0),
+      count: data => parseInt(get(data, 'metadata.count', 0), 10),
     },
   },
 }

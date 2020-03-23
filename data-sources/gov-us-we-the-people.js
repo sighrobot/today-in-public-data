@@ -27,7 +27,15 @@ module.exports = {
       title: item => get(item, 'title'),
       url: item => get(item, 'url'),
       time: item => get(item, 'created', 0) * 1000,
-      count: collection => get(collection, 'results.length', 0),
+      count: collection => parseInt(get(collection, 'results.length', 0), 10),
+      data: item => ({
+        ID: item.id,
+        'Signature count': `${item.signatureCount.toLocaleString()} / ${item.signatureThreshold.toLocaleString()} (${(
+          (item.signatureCount / item.signatureThreshold) *
+          100
+        ).toFixed(1)}%)`,
+      }),
+      body: item => item.body,
     },
   },
 }

@@ -18,6 +18,7 @@ const Head = props => (
     <link rel="apple-touch-icon" href="/touch-icon.png" />
     <link rel="mask-icon" href="/favicon-mask.svg" color="#49B882" />
     <link rel="icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
     <meta property="og:url" content={props.url || defaultOGURL} />
     <meta property="og:title" content={props.title || ''} />
     <meta
@@ -33,7 +34,7 @@ const Head = props => (
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <link
-      href="https://fonts.googleapis.com/css?family=Anonymous+Pro|Crimson+Text|Fredoka+One"
+      href="https://fonts.googleapis.com/css?family=Yantramanav:300,500&display=swap&subset=latin-ext"
       rel="stylesheet"
     />
     <script

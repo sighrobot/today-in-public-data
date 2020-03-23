@@ -3,7 +3,7 @@
   "author": "Abe Rubenstein (https://abe.sh/)",
   "license": "MIT",
   "repository": "https://github.com/sighrobot/today-in-public-data",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

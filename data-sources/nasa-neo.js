@@ -1,4 +1,4 @@
-const { get } = require('lodash')
+const { get, omit } = require('lodash')
 const moment = require('moment')
 
 const { DATA_GOV_API } = require('./_authParams')
@@ -38,7 +38,17 @@ module.exports = {
       url: item => get(item, 'nasa_jpl_url'),
       time: item =>
         get(item, 'close_approach_data[0].epoch_date_close_approach', 0),
-      count: data => get(data, 'element_count', 0),
+      count: data => parseInt(get(data, 'element_count', 0), 10),
+      data: item => ({
+        Name: item.name,
+        'NEO Reference ID': item.neo_reference_id,
+        'Abs. magnitude (H)': item.absolute_magnitude_h,
+        'Potentially hazardous?': item.is_potentially_hazardous_asteroid.toString(),
+        'Sentry object?': item.is_sentry_object.toString(),
+        'Est. min. diameter': `${item.estimated_diameter.kilometers.estimated_diameter_min} km`,
+        'Est. max. diameter': `${item.estimated_diameter.kilometers.estimated_diameter_max} km`,
+      }),
+      body: () => '',
     },
   },
 }
