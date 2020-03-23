@@ -1,18 +1,24 @@
 .control-bar {
-    padding: 20px;
-    padding-bottom: 0;
+    background: white;
+    position:absolute;
+    z-index:999999;
     display: flex;
     flex-direction: column;
-    width: 280px;
+    width: 300px;
     flex-shrink: 0;
+    align-items: center;
+    border-right: 1px solid #ccc;
+    left: -300px;
+    bottom: 0;
+    top: 45px;
+    transition: 200ms ease left;
+    box-shadow: 2px 0 2px rgba(0, 0, 0, 0.2);
 
-    .source-filter {
-        margin-top: 32px;
+    &.control-bar-open {
+        left: 0;
     }
-}
 
-@media screen and (max-width: 720px) {
-    .control-bar {
-        display: none;
+    .date-control-wrapper {
+        margin: 15px 0;
     }
 }

@@ -2,48 +2,39 @@ import React from 'react'
 import Router from 'next/router'
 import { withRouter } from 'next/router'
 import moment from 'moment'
-import { get, mapValues } from 'lodash'
+import { get, isEqual, mapValues } from 'lodash'
 
-import { fetchData, getISO } from '../lib/utils'
+import { fetchData } from '../lib/utils'
 import sources from '../lib/sources'
 
 import Head from '../components/head'
-import Nav from '../components/nav'
 import Footer from '../components/footer'
 import Planner from '../components/planner'
+import CalendarHeader from '../components/planner/header'
 import Schedule from '../components/schedule'
+import Inspector from '../components/inspector'
 import ControlBar from '../components/control-bar'
 
 class App extends React.PureComponent {
   initDate = () => {
-    const dateStringFromUrl = get(this.props, 'router.query.date')
+    const dateStringFromUrl = get(this.props, 'router.asPath').split('date=')[1]
 
     return dateStringFromUrl ? moment(dateStringFromUrl).toDate() : new Date()
   }
 
   state = {
-    countsByDate: {},
     date: this.initDate(),
     isLoading: true,
     data: null,
     sourceVisibility: mapValues(sources, (value, key) =>
-      ['nasa_neo', 'open_corporates', 'usgs_earthquakes'].includes(key)
+      ['nasa_neo', 'usgs_earthquakes'].includes(key)
     ),
     view: 'planner',
+    event: null,
+    menu: false
   }
 
-  setCount = (date, count) =>
-    this.setState(state => ({
-      countsByDate: {
-        ...state.countsByDate,
-        [getISO(date)]: count,
-      },
-    }))
-
-  toggleView = () =>
-    this.setState({
-      view: this.state.view === 'planner' ? 'schedule' : 'planner',
-    })
+  toggleView = ({ target: { name: view } }) => this.setState({ view })
 
   updateRoute = d => {
     const nextRouting = {
@@ -82,6 +73,20 @@ class App extends React.PureComponent {
     this.loadDataOn()
   }
 
+  handleInspectEvent = event =>
+    this.setState(state => {
+      const newState = { event }
+
+      if (isEqual(state.event, event)) {
+        newState.event = null
+      }
+
+      return newState
+    })
+  closeInspector = () => this.setState({ event: null })
+
+  toggleMenu = () => this.setState(state => ({ menu: !state.menu }))
+
   handleFetchDate = d => {
     this.updateRoute(d)
 
@@ -112,30 +117,55 @@ class App extends React.PureComponent {
       return this.props.content
     }
 
+    const eventCount = Object.keys(this.state.sourceVisibility)
+      .filter(sk => this.state.sourceVisibility[sk])
+      .reduce((acc, sk) => {
+        const data = get(this.state.data, sk)
+
+        if (data) {
+          return acc + data.data.length
+        }
+
+        return acc + 0
+      }, 0)
+
     return (
       <main>
         <ControlBar
+          menu={this.state.menu}
           dateForPicker={this.state.date}
           onToggleSource={this.handleToggleSource}
           sourceVisibility={this.state.sourceVisibility}
           handleFetchDate={this.handleFetchDate}
         />
 
-        {this.state.view === 'planner' ? (
-          <Planner
-            data={this.state.data}
-            date={this.state.date}
-            sourceVisibility={this.state.sourceVisibility}
-            loading={this.state.isLoading}
-          />
-        ) : (
-          <Schedule
-            data={this.state.data}
-            date={this.state.date}
-            sourceVisibility={this.state.sourceVisibility}
-            loading={this.state.isLoading}
-          />
-        )}
+        <div className="calendar-wrap">
+          <CalendarHeader onChangeView={this.toggleView} view={this.state.view}>
+            <strong>{eventCount.toLocaleString()}</strong>{' '}
+            {eventCount === 1 ? 'event' : 'events'}
+          </CalendarHeader>
+          {this.state.view === 'planner' ? (
+            <Planner
+              data={this.state.data}
+              date={this.state.date}
+              inspector={this.state.event}
+              sourceVisibility={this.state.sourceVisibility}
+              loading={this.state.isLoading}
+              onInspect={this.handleInspectEvent}
+            />
+          ) : (
+            <Schedule
+              data={this.state.data}
+              date={this.state.date}
+              inspector={this.state.event}
+              sourceVisibility={this.state.sourceVisibility}
+              loading={this.state.isLoading}
+              onInspect={this.handleInspectEvent}
+            />
+          )}
+        </div>
+
+        <Inspector event={this.state.event} onClose={this.closeInspector} />
       </main>
     )
   }
@@ -152,17 +182,9 @@ class App extends React.PureComponent {
           ).format('MMMM D, YYYY')}?`}
         />
 
-        <Nav
-          date={this.state.date}
-          counts={this.state.countsByDate}
-          fetchDateFunc={this.handleFetchDate}
-          setCountFunc={this.setCount}
-          handleViewChange={this.toggleView}
-        />
+        <Footer date={this.state.date} toggleMenu={this.toggleMenu} />
 
         {this.renderContent()}
-
-        <Footer />
 
         <script> </script>
         {/* https://github.com/zeit/next-plugins/issues/455#issuecomment-489452379 */}

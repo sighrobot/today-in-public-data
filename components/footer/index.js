@@ -1,30 +1,13 @@
 import React from 'react'
+import moment from 'moment'
 
 import './style.styl'
 
-const p = require('../../package.json')
-
-export default class Footer extends React.PureComponent {
-  render() {
-    return (
-      <footer>
-        <div>
-          <a
-            href={`${p.repository}/releases/tag/v${p.version}`}
-            target="_blank"
-          >
-            v{p.version}
-          </a>{' '}
-          made with public and open data by{' '}
-          <a
-            className="outbound"
-            target="_blank"
-            href="https://twitter.com/sighrobot"
-          >
-            @sighrobot
-          </a>
-        </div>
-      </footer>
-    )
-  }
+export default ({ toggleMenu, date }) => {
+  return (
+    <header className="app-header">
+      <button onClick={toggleMenu}>&#9776;</button>
+      <h1><strong>{moment(date).format('MMMM D, YYYY')}</strong> in Public Data</h1>
+    </header>
+  )
 }

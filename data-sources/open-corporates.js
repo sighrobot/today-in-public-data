@@ -33,7 +33,8 @@ module.exports = {
       title: item => get(item, 'company.name'),
       url: item => get(item, 'company.opencorporates_url'),
       time: item => get(item, 'company.updated_at'),
-      count: collection => get(collection, 'results.total_count', 0),
+      count: collection =>
+        parseInt(get(collection, 'results.total_count', 0), 10),
     },
   },
 }

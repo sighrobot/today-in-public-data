@@ -27,7 +27,7 @@ module.exports = {
       title: item => get(item, 'name_abbreviation'),
       url: item => get(item, 'frontend_url'),
       time: () => 'a',
-      count: data => get(data, 'count', 0),
+      count: data => parseInt(get(data, 'count', 0), 10),
     },
   },
 }

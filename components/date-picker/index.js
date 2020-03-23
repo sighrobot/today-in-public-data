@@ -34,7 +34,7 @@ export default class DatePicker extends React.PureComponent {
           disabledKeyboardNavigation
           onChange={this.handleChangeDate}
           selected={new Date(moment(this.state.dateForPicker).utc())}
-          todayButton="Today"
+          todayButton="fooToday"
           onBlur={this.submitDate}
         />
       </form>

@@ -29,7 +29,7 @@ module.exports = {
       url: item =>
         `https://www.google.com/maps/place/${item[3]}${item[4]}+${item[5]}${item[6]}/`,
       time: item => item[0],
-      count: data => get(data, 'count', 0),
+      count: data => parseInt(get(data, 'count', 0), 10),
     },
   },
 }
