@@ -1,69 +1,62 @@
 .schedule {
     overflow-y: auto;
-    border: 1px solid #ccc;
+    overflow-x: hidden;
     border-right: 0;
     width: 100%;
-    padding: 20px 40px;
 
     ul {
         margin: 0;
-        padding: 0;
+        padding: 15px 0;
+        position: relative;
 
         hr {
             border: none;
             background: #ccc;
             height: 1px;
+            width: 100%;
+            flex-shrink: 0;
+            margin: 14px 0;
         }
 
         li {
             display: flex;
             align-items: center;
             line-height: normal;
-            padding: 5px 10px;
-            border-radius: 30px;
-            font-size: 13px;
+            padding: 0 30px;
+            font-size: 14px;
+            height: 30px;
 
             &:hover {
+                background: #f5f5f5;
+                cursor: pointer;
+            }
+
+            &.inspected {
+                font-weight: 500;
                 background: #f5f5f5;
             }
 
             .schedule-time {
                 flex-shrink: 0;
                 margin-right: 30px;
-                width: 60px;
-                font-weight: 300;
+                width: 50px;
+                text-align: right;
             }
 
             .schedule-title {
-                margin-right: 10px;
-                flex-shrink: 0;
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
-            }
-
-            .schedule-url {
-                opacity: 0.5;
-                text-decoration: none;
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-
-
-                &:hover {
-                    text-decoration: underline;
-                }
             }
         }
     }
 }
 
 .schedule-dot {
-    border: 1px solid #ccc;
-    border-radius: 100%;
+    border: 1px solid #63666a;
     flex-shrink: 0;
-    margin-right: 15px;
-    height: 10px;
-    width: 10px;
-    transform: translateY(-1px);
+    margin-right: 30px;
+    height: 12px;
+    width: 12px;
+    transform: translateY(-0.5px);
 }

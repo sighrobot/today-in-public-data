@@ -1,5 +1,7 @@
 import request from 'superagent'
 import sources from '../../lib/sources'
+import moment from 'moment'
+import { sortBy } from 'lodash'
 
 const makeRequest = (sourceKey, date) => {
   const source = sources[sourceKey]
@@ -24,6 +26,30 @@ const makeRequest = (sourceKey, date) => {
   })
 }
 
+const parseBody = (json, sourceKey, date) => {
+  const source = sources[sourceKey]
+
+  return {
+    raw: json,
+    data: sortBy(
+      source.get
+        .collection(json)
+        .filter(d => moment(source.get.time(d)).day() === moment(date).day())
+        .map(d => ({
+          body: source.get.body ? source.get.body(d) : '',
+          url: source.get.url(d),
+          title: source.get.title(d),
+          time: moment(source.get.time(d))
+            .toDate()
+            .getTime(),
+          raw: d,
+          source: sourceKey,
+        })),
+      'time'
+    ),
+  }
+}
+
 export default async (req, res) => {
   const {
     query: { date, sources: sourcesToFetch = '' },
@@ -39,7 +65,9 @@ export default async (req, res) => {
   const collated = {}
 
   responses.forEach((response, idx) => {
-    collated[sourceKeys[idx]] = response.body
+    const sourceKey = sourceKeys[idx]
+
+    collated[sourceKey] = parseBody(response.body, sourceKey, date)
   })
 
   res.json(collated)

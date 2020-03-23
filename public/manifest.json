@@ -1,0 +1,11 @@
+{
+  "short_name": "Today in Public Data",
+  "name": "Today in Public Data",
+  "description": "What's happening today in public data?",
+  "icons": [],
+  "start_url": "/?source=pwa",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#ffffff"
+}
