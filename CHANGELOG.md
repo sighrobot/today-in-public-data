@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## `v2.3.0` - 2020-03-22
+
+- Completely new layout and design
+- Mobile and progressive web app friendly
+
 ## `v2.2.0` - 2020-03-16
 
 - Add schedule layout
