@@ -26,12 +26,11 @@ class App extends React.PureComponent {
     date: this.initDate(),
     isLoading: true,
     data: null,
-    sourceVisibility: mapValues(sources, (value, key) =>
-      ['nasa_neo', 'usgs_earthquakes'].includes(key)
-    ),
+    sourceVisibility: mapValues(sources, (value, key) => true),
     view: 'planner',
     event: null,
-    menu: false
+    menu: false,
+    search: '',
   }
 
   toggleView = ({ target: { name: view } }) => this.setState({ view })
@@ -55,12 +54,12 @@ class App extends React.PureComponent {
     Object.keys(this.state.sourceVisibility)
       .filter(k => this.state.sourceVisibility[k])
       .forEach(k => {
-        this.loady(k)
+        this.loady(k, this.state.search)
       })
   }
 
-  loady = async key => {
-    const { body } = await fetchData(this.state.date, [key])
+  loady = async (key, search) => {
+    const { body } = await fetchData(this.state.date, [key], search)
     // const body = require('../lib/fake.json')
 
     this.setState({
@@ -170,6 +169,17 @@ class App extends React.PureComponent {
     )
   }
 
+  handleSearchSubmit = e => {
+    e.preventDefault()
+
+    console.log('search for', this.state.search)
+    this.loadDataOn()
+  }
+
+  handleSearchChange = e => {
+    this.setState({ search: e.target.value })
+  }
+
   render() {
     return (
       <>
@@ -183,6 +193,10 @@ class App extends React.PureComponent {
         />
 
         <Footer date={this.state.date} toggleMenu={this.toggleMenu} />
+
+        <form onSubmit={this.handleSearchSubmit}>
+          <input onChange={this.handleSearchChange} value={this.state.search} />
+        </form>
 
         {this.renderContent()}
 

@@ -3,9 +3,14 @@ const moment = require('moment')
 
 module.exports = {
   caselaw: {
+    isAllDay: true,
     name: 'Caselaw Access Project',
     web: 'https://case.law/api/',
     baseUrl: 'https://api.case.law/v1/cases/',
+    search: {
+      name: 'search',
+      value: s => s,
+    },
     dateFields: [
       {
         name: 'decision_date_min',
@@ -26,8 +31,8 @@ module.exports = {
       collection: data => get(data, 'results', []),
       title: item => get(item, 'name_abbreviation'),
       url: item => get(item, 'frontend_url'),
-      time: () => 'a',
-      count: data => parseInt(get(data, 'count', 0), 10),
+      time: item => moment(item.decision_date).unix() * 1000,
+      count: data => get(data, 'count', 0),
     },
   },
 }

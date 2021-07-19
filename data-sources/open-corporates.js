@@ -8,11 +8,12 @@ module.exports = {
     name: 'OpenCorporates',
     web: 'https://api.opencorporates.com/documentation/API-Reference',
     baseUrl: 'https://api.opencorporates.com/v0.4/companies/search',
-    query: [
-      OPEN_CORPORATES_API,
-      { name: 'q', value: '&nbsp;*' },
-      { name: 'per_page', value: 100 },
-    ],
+    search: {
+      name: 'q',
+      value: s => s,
+    },
+    isAllDay: true,
+    query: [OPEN_CORPORATES_API, { name: 'per_page', value: 100 }],
     dateFields: [
       {
         name: 'updated_at',

@@ -9,6 +9,10 @@ module.exports = {
     web: 'https://petitions.whitehouse.gov/developers',
     baseUrl: 'https://api.whitehouse.gov/v1/petitions.json',
     query: [DATA_GOV_API, { name: 'offset', value: 0 }],
+    search: {
+      name: 'body',
+      value: d => d,
+    },
     dateFields: [
       {
         name: 'createdBefore',

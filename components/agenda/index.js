@@ -6,19 +6,37 @@ import { getHighlightStyle, TIME_FMT } from '../../lib/constants'
 import './style.styl'
 
 const HOUR_HEIGHT = 100
-// const AGENDA_WIDTH = 560
 const PADDING_RIGHT = 35
 
 export default ({
   data,
   date,
-  sourceKey,
   sourceIndex,
   onInspect,
   inspector,
-  agendaWidth: AGENDA_WIDTH
+  agendaWidth: AGENDA_WIDTH,
+  isAllDay,
 }) => {
   const collection = get(data, 'data', [])
+
+  if (isAllDay) {
+    return collection.map((item, idx) => {
+      return (
+        <div
+          key={idx}
+          onClick={() => onInspect(item)}
+          className={`agenda-item agenda-item-all-day ${
+            isEqual(item, inspector) ? 'agenda-item-inspected' : ''
+          }`}
+          style={getHighlightStyle(sourceIndex)}
+        >
+          <h4>{item.title}</h4>
+          <p>All day</p>
+        </div>
+      )
+    })
+  }
+
   const hours = {}
 
   collection.forEach(item => {

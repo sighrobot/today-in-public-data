@@ -1,4 +1,4 @@
-const { get, omit } = require('lodash')
+const { get } = require('lodash')
 const moment = require('moment')
 
 const { DATA_GOV_API } = require('./_authParams')

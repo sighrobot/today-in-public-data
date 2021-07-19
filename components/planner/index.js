@@ -11,7 +11,6 @@ import { getHighlightStyle } from '../../lib/constants'
 
 const MIN_WIDTH = 540
 
-
 export default ({
   data,
   date,
@@ -24,13 +23,11 @@ export default ({
   const sourceKeys = sortBy(Object.keys(sources), k => sources[k].name)
   const visible = sourceKeys.filter(sk => sourceVisibility[sk])
 
-
   React.useEffect(() => {
-    const agendaWidth = window.innerWidth / visible.length;
+    const agendaWidth = window.innerWidth / visible.length
 
     setMaxWidth(Math.max(agendaWidth, MIN_WIDTH))
   }, [visible.length])
-
 
   let bg = 'linear-gradient(to right, #f5f5f5,'
 
@@ -51,14 +48,11 @@ export default ({
   return (
     <div className="planner">
       <hr style={{ background: bg, width: `${totalLength}px` }} />
-      <div
-        className="planner-headers"
-        style={{ width: `${totalLength}px` }}
-      >
+      <div className="planner-headers" style={{ width: `${totalLength}px` }}>
         {sourceKeys.map((sourceKey, idx) => {
           if (!sourceVisibility[sourceKey]) return null
           return (
-            <h3 key={sourceKey} style={{width: maxWidth}}>
+            <h3 key={sourceKey} style={{ width: maxWidth }}>
               {sources[sourceKey].name}{' '}
               <span>
                 (
@@ -85,17 +79,23 @@ export default ({
           sourceKeys.map((sourceKey, idx) => {
             if (!sourceVisibility[sourceKey]) return null
 
+            const source = sources[sourceKey]
+
             return (
-              <section className="planner-section" key={sourceKey} style={{width: maxWidth}}>
-                <Grid numbers />
+              <section
+                className="planner-section"
+                key={sourceKey}
+                style={{ width: maxWidth }}
+              >
+                {source.isAllDay ? null : <Grid numbers />}
                 <Agenda
                   data={data[sourceKey]}
                   date={date}
-                  sourceKey={sourceKey}
                   sourceIndex={idx}
                   onInspect={onInspect}
                   inspector={inspector}
                   agendaWidth={maxWidth}
+                  isAllDay={source.isAllDay}
                 />
               </section>
             )
