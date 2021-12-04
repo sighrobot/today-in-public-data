@@ -1,6 +1,6 @@
 import moment from 'moment'
 import React from 'react'
-import './style.styl'
+import styles from './style.module.scss'
 
 import sources from '../../lib/sources'
 
@@ -15,14 +15,19 @@ export default ({ event, onClose }) => {
   const time = moment(event.time)
 
   return (
-    <aside className={`inspector ${event ? 'inspector-open' : ''}`}>
+    <aside
+      className={`inspector ${event ? 'inspector-open' : ''}`}
+      style={styles}
+    >
       <header>
         <h3>{title}</h3>
         <button onClick={onClose}>&times;</button>
       </header>
 
       <em>{time.fromNow()}</em>
-      <em>{time.format('MMMM D, YYYY')} at {time.format('h:mma')}</em>
+      <em>
+        {time.format('MMMM D, YYYY')} at {time.format('h:mma')}
+      </em>
       <a href={url} target="_blank">
         View event at {source.name}
       </a>

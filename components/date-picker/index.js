@@ -2,7 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import RDP from 'react-datepicker'
 
-import './style.styl'
+import styles from './style.module.scss'
 
 export default class DatePicker extends React.PureComponent {
   updateDate = (props = this.props) => new Date(moment(props.date).utc())
@@ -27,7 +27,7 @@ export default class DatePicker extends React.PureComponent {
 
   render() {
     return (
-      <form className="date-picker">
+      <form className="date-picker" style={styles}>
         <RDP
           className="date-picker-input"
           dateFormat="MMM dd, yyyy"

@@ -3,7 +3,7 @@ import { get, isEqual, flatten } from 'lodash'
 import moment from 'moment'
 
 import { getHighlightStyle, TIME_FMT } from '../../lib/constants'
-import './style.styl'
+import styles from './style.module.scss'
 
 const HOUR_HEIGHT = 100
 // const AGENDA_WIDTH = 560
@@ -16,7 +16,7 @@ export default ({
   sourceIndex,
   onInspect,
   inspector,
-  agendaWidth: AGENDA_WIDTH
+  agendaWidth: AGENDA_WIDTH,
 }) => {
   const collection = get(data, 'data', [])
   const hours = {}
@@ -35,7 +35,7 @@ export default ({
   })
 
   return (
-    <div className="agenda">
+    <div className="agenda" style={styles}>
       {collection.length > 0
         ? flatten(
             Object.keys(hours).map((hc, hidx) =>

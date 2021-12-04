@@ -3,8 +3,8 @@ import RDP from 'react-datepicker'
 import SourceFilter from '../source-filter'
 import moment from 'moment'
 
-import './style.styl'
-import '../date-picker/style.styl'
+import styles from './style.module.scss'
+import dpStyles from '../date-picker/style.module.scss'
 
 const p = require('../../package.json')
 
@@ -16,7 +16,10 @@ export default ({
   menu,
 }) => {
   return (
-    <div className={`control-bar ${menu ? 'control-bar-open' : ''}`}>
+    <div
+      className={`control-bar ${menu ? 'control-bar-open' : ''}`}
+      style={styles}
+    >
       <div className="date-control-wrapper">
         <RDP
           className="date-picker-input"

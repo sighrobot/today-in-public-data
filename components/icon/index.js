@@ -1,4 +1,4 @@
-import './style.styl'
+import styles from './style.module.scss'
 
 const icons = {
   grid: {
@@ -52,6 +52,7 @@ export default ({ glyph }) => {
     return (
       <svg
         className={`icon icon-${glyph}`}
+        style={styles}
         stroke="currentColor"
         xmlns="http://www.w3.org/2000/svg"
         {...iconProps}

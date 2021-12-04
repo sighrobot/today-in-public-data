@@ -6,11 +6,10 @@ import sources from '../../lib/sources'
 import Loader from '../../components/loader'
 import Agenda from '../agenda'
 import Grid from '../grid'
-import './style.styl'
+import styles from './style.module.scss'
 import { getHighlightStyle } from '../../lib/constants'
 
 const MIN_WIDTH = 540
-
 
 export default ({
   data,
@@ -24,13 +23,11 @@ export default ({
   const sourceKeys = sortBy(Object.keys(sources), k => sources[k].name)
   const visible = sourceKeys.filter(sk => sourceVisibility[sk])
 
-
   React.useEffect(() => {
-    const agendaWidth = window.innerWidth / visible.length;
+    const agendaWidth = window.innerWidth / visible.length
 
     setMaxWidth(Math.max(agendaWidth, MIN_WIDTH))
   }, [visible.length])
-
 
   let bg = 'linear-gradient(to right, #f5f5f5,'
 
@@ -49,16 +46,13 @@ export default ({
   const totalLength = visible.length * maxWidth
 
   return (
-    <div className="planner">
+    <div className="planner" style={styles}>
       <hr style={{ background: bg, width: `${totalLength}px` }} />
-      <div
-        className="planner-headers"
-        style={{ width: `${totalLength}px` }}
-      >
+      <div className="planner-headers" style={{ width: `${totalLength}px` }}>
         {sourceKeys.map((sourceKey, idx) => {
           if (!sourceVisibility[sourceKey]) return null
           return (
-            <h3 key={sourceKey} style={{width: maxWidth}}>
+            <h3 key={sourceKey} style={{ width: maxWidth }}>
               {sources[sourceKey].name}{' '}
               <span>
                 (
@@ -86,7 +80,11 @@ export default ({
             if (!sourceVisibility[sourceKey]) return null
 
             return (
-              <section className="planner-section" key={sourceKey} style={{width: maxWidth}}>
+              <section
+                className="planner-section"
+                key={sourceKey}
+                style={{ width: maxWidth }}
+              >
                 <Grid numbers />
                 <Agenda
                   data={data[sourceKey]}

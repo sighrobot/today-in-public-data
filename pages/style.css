@@ -1,0 +1,25 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: white;
+  font-family: 'Yantramanav', sans-serif;
+  font-weight: 300;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#__next {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+main {
+  display: flex;
+  overflow: hidden;
+  flex-grow: 1;
+}
