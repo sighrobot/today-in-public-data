@@ -3,7 +3,7 @@ import moment from 'moment'
 
 import DatePicker from '../date-picker'
 
-import './style.styl'
+import styles from './style.module.scss'
 
 export default class Nav extends React.PureComponent {
   renderTitle() {
@@ -17,7 +17,7 @@ export default class Nav extends React.PureComponent {
 
   render() {
     return (
-      <nav>
+      <nav style={styles}>
         <DatePicker
           date={this.props.date}
           fetchDateFunc={this.props.fetchDateFunc}

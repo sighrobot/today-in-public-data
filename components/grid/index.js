@@ -1,6 +1,6 @@
 import React from 'react'
 
-import './style.styl'
+import styles from './style.module.scss'
 
 const arr = []
 for (var i = 1; i <= 23; i++) {
@@ -18,7 +18,7 @@ export const Line = ({ children }) => {
 
 export default ({ numbers = false }) => {
   return (
-    <div className="grid">
+    <div className="grid" style={styles}>
       {numbers
         ? arr.map((a, idx) => (
             <Line key={`${idx}${a >= 12 ? 'p' : 'a'}`}>

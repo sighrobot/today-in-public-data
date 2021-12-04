@@ -3,7 +3,7 @@ import { sortBy, partition } from 'lodash'
 import sources from '../../lib/sources'
 import { getHighlightStyle } from '../../lib/constants'
 
-import './style.styl'
+import styles from './style.module.scss'
 
 export default ({ onToggleSource, sourceVisibility = {} }) => {
   const [value, setValue] = React.useState('')
@@ -37,7 +37,7 @@ export default ({ onToggleSource, sourceVisibility = {} }) => {
   const handleChange = e => setValue(e.target.value)
 
   return (
-    <div className="source-filter">
+    <div className="source-filter" style={styles}>
       <input
         placeholder="Filter data sources"
         value={value}

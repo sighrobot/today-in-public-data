@@ -1,5 +1,5 @@
 // import App from 'next/app'
-import '../pages/style.styl'
+import '../pages/style.css'
 import 'react-datepicker/dist/react-datepicker.css'
 
 function MyApp({ Component, pageProps }) {

@@ -5,7 +5,7 @@ import { isEqual, sortBy } from 'lodash'
 import sources from '../../lib/sources'
 
 import Dot from './dot'
-import './style.styl'
+import styles from './style.module.scss'
 import { TIME_FMT, getHighlightStyle } from '../../lib/constants'
 
 export default ({ data, date, inspector, onInspect, sourceVisibility }) => {
@@ -57,7 +57,7 @@ export default ({ data, date, inspector, onInspect, sourceVisibility }) => {
   })
 
   return (
-    <div className="schedule">
+    <div className="schedule" style={styles}>
       <ul>{events}</ul>
     </div>
   )
