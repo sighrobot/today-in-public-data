@@ -30,20 +30,22 @@ const parseBody = (json, sourceKey, date) => {
   const source = sources[sourceKey]
 
   return {
-    raw: json,
+    // raw: json,
+
+    meta: {},
     data: sortBy(
       source.get
         .collection(json)
         .filter(d => moment(source.get.time(d)).day() === moment(date).day())
         .map(d => ({
-          body: source.get.body ? source.get.body(d) : '',
+          // body: source.get.body ? source.get.body(d) : '',
           url: source.get.url(d),
           title: source.get.title(d),
           time: moment(source.get.time(d))
             .toDate()
-            .getTime(),
-          raw: d,
-          source: sourceKey,
+            .toUTCString(),
+          // raw: d,
+          // source: sourceKey,
         })),
       'time'
     ),
@@ -62,12 +64,12 @@ export default async (req, res) => {
     sourceKeys.map(sourceKey => makeRequest(sourceKey, date))
   )
 
-  const collated = {}
+  const collated = { date, meta: {}, sources: {} }
 
   responses.forEach((response, idx) => {
     const sourceKey = sourceKeys[idx]
 
-    collated[sourceKey] = parseBody(response.body, sourceKey, date)
+    collated.sources[sourceKey] = parseBody(response.body, sourceKey, date)
   })
 
   res.json(collated)
