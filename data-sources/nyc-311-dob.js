@@ -24,7 +24,17 @@ module.exports = {
     ],
     get: {
       collection: data => data,
-      title: item => get(item, 'descriptor') || get(item, 'complaint_type'),
+      agency: item => get(item, 'agency'),
+      category: item => get(item, 'complaint_type'),
+      title: item => get(item, 'descriptor'),
+      description: item => get(item, 'descriptor'),
+      addressType: item => get(item, 'address_type'),
+      address: item => get(item, 'incident_address'),
+      city: item => get(item, 'city'),
+      zip: item => get(item, 'incident_zip'),
+      latitude: item => get(item, 'latitude'),
+      longitude: item => get(item, 'longitude'),
+
       url: item =>
         `https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9/data?q=${get(
           item,

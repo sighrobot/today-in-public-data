@@ -1,5 +1,5 @@
-header.app-header {
-  background: linear-gradient(to right, #6699CC, white);
+.appHeader {
+  background: linear-gradient(to right, #6699cc, white);
   background: white;
   flex-shrink: 0;
   margin: 0;
@@ -10,10 +10,17 @@ header.app-header {
   width: 100%;
   border-bottom: 2px solid #16161d;
 
+  h1 {
+    line-height: normal;
+    font-size: 16px;
+    font-weight: 300;
+    margin: 0;
+  }
+
   > button {
     background: none;
-    border:none;
-    margin:0;
+    border: none;
+    margin: 0;
     font-size: 16px;
     width: 45px;
     outline: 0;
@@ -23,17 +30,6 @@ header.app-header {
 
     &:hover {
       cursor: pointer;
-    }
-  }
-
-  h1 {
-    line-height: normal;
-    font-size: 16px;
-    font-weight: 300;
-    margin: 0;
-
-    strong {
-      font-weight: 500;
     }
   }
 }

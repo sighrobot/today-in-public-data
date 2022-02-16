@@ -16,10 +16,7 @@ export default ({
   menu,
 }) => {
   return (
-    <div
-      className={`control-bar ${menu ? 'control-bar-open' : ''}`}
-      style={styles}
-    >
+    <div className={`${styles.controlBar} ${menu ? 'control-bar-open' : ''}`}>
       <div className="date-control-wrapper">
         <RDP
           className="date-picker-input"

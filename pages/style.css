@@ -4,11 +4,9 @@
 
 body {
   background: white;
-  font-family: 'Yantramanav', sans-serif;
+  font-family: 'Public Sans', courier;
   font-weight: 300;
   margin: 0;
-  height: 100vh;
-  overflow: hidden;
 }
 
 #__next {
@@ -19,7 +17,6 @@ body {
 }
 
 main {
-  display: flex;
-  overflow: hidden;
-  flex-grow: 1;
+  /* display: flex;
+  flex-grow: 1; */
 }

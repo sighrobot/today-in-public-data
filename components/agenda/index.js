@@ -35,7 +35,7 @@ export default ({
   })
 
   return (
-    <div className="agenda" style={styles}>
+    <div className={styles.agendaItem}>
       {collection.length > 0
         ? flatten(
             Object.keys(hours).map((hc, hidx) =>
